@@ -4,6 +4,7 @@ import "../env";
 import db from "../db";
 import { getCoinData } from "../apis/coingecko_api";
 import { SUPPORTED_COINS } from "./supported_coins";
+import logger from "../logger";
 
 async function fetchCoins() {
   const coins: Prisma.CoinCreateInput[] = [];
@@ -22,7 +23,7 @@ async function fetchCoins() {
     data: coins,
   });
 
-  console.log(`Registered ${coins.length.toString()} coins`);
+  logger.info(`Registered ${coins.length.toString()} coins`);
 }
 
 void fetchCoins();

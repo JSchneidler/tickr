@@ -4,6 +4,7 @@ import { Prisma } from "../generated/prisma/client";
 import env from "../env";
 import { getCoins } from "../coin/coin.service";
 import { CoinResponse } from "../coin/coin.schema";
+import logger from "../logger";
 
 interface Trade {
   c: number[] | undefined; // Trade conditions
@@ -37,7 +38,7 @@ interface LivePrice {
   price: string;
 }
 
-const FINNHUB_WEBSOCKET_URL = "wss://ws.finnhub.io";
+const FINNHUB_WEBSOCKET_URL = "wss://ws.finnhub.io/";
 const URL = `${FINNHUB_WEBSOCKET_URL}?token=${env.FINNHUB_API_KEY}`;
 
 const PUBLISH_INTERVAL = 1000; // Remove interval, publish immediately somehow
@@ -65,7 +66,7 @@ class TradeFeed {
 
       this.ws.on("open", () => {
         clearTimeout(timeout);
-        console.log("Connected to Finnhub WSS");
+        logger.info("Connected to Finnhub WSS");
         this.startSubscriptions();
         resolve();
       });
@@ -95,7 +96,7 @@ class TradeFeed {
 
       this.ws.on("error", (error) => {
         clearTimeout(timeout);
-        console.error(error);
+        logger.error(error);
         reject(error);
       });
     });

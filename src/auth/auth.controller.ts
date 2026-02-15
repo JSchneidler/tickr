@@ -5,6 +5,7 @@ import { CreateUserRequestBody } from "../user/user.schema";
 import { LoginRequestBody } from "./auth.schema";
 import { login } from "./auth.service";
 // import { revokeToken } from "../token/token.service";
+import logger from "../logger";
 
 export async function registerHandler(
   req: FastifyRequest<{ Body: CreateUserRequestBody }>,
@@ -36,7 +37,7 @@ export async function loginHandler(
     });
     return user;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     rep.code(401).send("Unauthorized");
   }
 }
@@ -46,7 +47,7 @@ export function logoutHandler(req: FastifyRequest, rep: FastifyReply) {
     // await revokeToken() TODO: Revoke token, get ID somehow
     return rep.clearCookie("token").send();
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     rep.code(401).send("Unauthorized");
   }
 }

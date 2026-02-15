@@ -3,7 +3,7 @@ name: Build
 on: push
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,11 +16,11 @@ jobs:
       - name: Run migrations
         run: DATABASE_URL="file:./dev.db" bun db:migrate
 
-      - name: Lint
-        run: bun lint
-
       - name: Build
         run: bun run build
+
+      - name: Lint
+        run: bun lint
 
 #  deploy:
 #    runs-on: ubuntu-latest

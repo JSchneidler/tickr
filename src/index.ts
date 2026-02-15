@@ -12,9 +12,10 @@ import tradeEngine from "./tradeEngine";
 import jwtAuth from "./auth";
 import api from "./api";
 import env from "./env";
+import logger from "./logger";
 
 const start = async () => {
-  const f = fastify({ logger: true }).withTypeProvider<TypeBoxTypeProvider>();
+  const f = fastify({ loggerInstance: logger }).withTypeProvider<TypeBoxTypeProvider>();
   try {
     await tradeFeed.start();
     await tradeEngine.start();

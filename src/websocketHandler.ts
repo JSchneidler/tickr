@@ -2,6 +2,8 @@ import tradeEngine from "./tradeEngine";
 import tradeFeed from "./apis/tradeFeed";
 import { WebsocketHandler } from "@fastify/websocket";
 
+import logger from "./logger";
+
 enum WebSocketMessageType {
   ORDER_FILLED = "ORDER_FILLED",
   WATCH = "WATCH",
@@ -9,7 +11,7 @@ enum WebSocketMessageType {
 
 const websocketHandler: WebsocketHandler = (socket, req) => {
   if (req.user) {
-    console.log(`User connected: ${req.user.name}(${req.user.id.toString()})`);
+    logger.info(`User connected: ${req.user.name}(${req.user.id.toString()})`);
 
     tradeEngine.addLiveUser(req.user.id, (order) => {
       socket.send(
@@ -19,7 +21,7 @@ const websocketHandler: WebsocketHandler = (socket, req) => {
         }),
       );
     });
-  } else console.log(`Guest connected: ${req.ip}`);
+  } else logger.info(`Guest connected: ${req.ip}`);
 
   const interval = setInterval(() => {
     socket.send(
@@ -31,16 +33,16 @@ const websocketHandler: WebsocketHandler = (socket, req) => {
   }, 1000);
 
   socket.on("error", (error) => {
-    console.error(error);
+    logger.error(error);
   });
 
   socket.on("close", () => {
     if (req.user) {
-      console.log(
+      logger.info(
         `User disconnected: ${req.user.name}(${req.user.id.toString()})`,
       );
       tradeEngine.removeLiveUser(req.user.id);
-    } else console.log(`Guest disconnected: ${req.ip}`);
+    } else logger.info(`Guest disconnected: ${req.ip}`);
 
     clearInterval(interval);
   });
