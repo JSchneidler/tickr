@@ -1,2 +1,4 @@
-pnpm lint
-# pnpm test
+bun run build
+bun lint
+bun format
+# bun test

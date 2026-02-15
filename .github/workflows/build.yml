@@ -19,6 +19,9 @@ jobs:
       - name: Lint
         run: bun lint
 
+      - name: Build
+        run: bun run build
+
 #  deploy:
 #    runs-on: ubuntu-latest
 #    needs: test

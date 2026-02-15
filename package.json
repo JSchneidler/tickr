@@ -4,12 +4,14 @@
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
+    "build": "bun build ./src/index.ts --target=bun",
     "dev": "bun --hot ./src/index.ts",
-    "db:migrate": "prisma db push && prisma generate",
     "db:fetch_coins": "bun ./src/jobs/fetch_coins.ts",
-    "start": "bun ./src/index.ts",
-    "lint": "tsc --noEmit && eslint . --fix && bun format",
-    "format": "prettier src/ --write"
+    "db:migrate": "prisma db push && prisma generate",
+    "format": "prettier src/ --write",
+    "lint": "eslint . --fix",
+    "prepare": "husky",
+    "start": "bun ./src/index.ts"
   },
   "dependencies": {
     "@fastify/cookie": "^11.0.2",
