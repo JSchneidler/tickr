@@ -5,8 +5,6 @@ import {
   RouteGenericInterface,
 } from "fastify";
 import FastifyPlugin from "fastify-plugin";
-import { pbkdf2, timingSafeEqual, randomBytes, createHash } from "crypto";
-import { promisify } from "util";
 import fastifyJwt, { JWT } from "@fastify/jwt";
 import { createSigner } from "fast-jwt";
 
@@ -33,37 +31,13 @@ const signJwt = createSigner({
   expiresIn: "7d",
 });
 
-export const pbkdf2Async = promisify(pbkdf2);
-
 export async function hashPassword(password: string) {
-  const salt = randomBytes(16);
-  const hash = await pbkdf2Async(
-    Buffer.from(password),
-    salt,
-    310000,
-    32,
-    "sha256",
-  );
-
-  return {
-    hash,
-    salt,
-  };
+  const hash = await Bun.password.hash(password, "bcrypt");
+  return Buffer.from(hash);
 }
 
-export async function comparePasswordHash(
-  password: Buffer,
-  salt: Buffer,
-  hash: Buffer,
-) {
-  const candidate_hash = await pbkdf2Async(
-    Buffer.from(password),
-    salt,
-    310000,
-    32,
-    "sha256",
-  );
-  return timingSafeEqual(candidate_hash, hash);
+export async function comparePasswordHash(password: Buffer, hash: Buffer) {
+  return await Bun.password.verify(password, hash.toString());
 }
 
 export async function generateJwt(user: UserWithoutSensitive) {
@@ -72,7 +46,7 @@ export async function generateJwt(user: UserWithoutSensitive) {
   });
   return {
     token,
-    hash: createHash("sha256").update(token).digest(),
+    hash: new Bun.CryptoHasher("sha256").update(token).digest(),
   };
 }
 

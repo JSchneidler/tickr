@@ -15,12 +15,12 @@ import { DateTime, Decimal, NullableDateTime } from "../types";
 
 // Prisma
 export type UserWithoutSensitive = Prisma.UserGetPayload<{
-  omit: { password_hash: true; salt: true };
+  omit: { password_hash: true };
 }>;
 
 export interface UserCreateInput extends Omit<
   Prisma.UserCreateInput,
-  "password_hash" | "salt"
+  "password_hash"
 > {
   password: string;
 }

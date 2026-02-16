@@ -9,13 +9,12 @@ export async function login(
 ): Promise<UserWithToken> {
   const user = await db.user.findUniqueOrThrow({
     where: { email },
-    omit: { password_hash: false, salt: false },
+    omit: { password_hash: false },
   });
 
   if (
     await comparePasswordHash(
       Buffer.from(password),
-      Buffer.from(user.salt),
       Buffer.from(user.password_hash),
     )
   ) {

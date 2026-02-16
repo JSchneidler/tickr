@@ -46,7 +46,6 @@ model User {
   AdminActionsReceived AdminAction[] @relation("ActionsReceived")
 
   password_hash Bytes
-  salt          Bytes
   AccessTokens  AccessToken[]
 
   createdAt DateTime  @default(now())

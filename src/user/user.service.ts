@@ -14,8 +14,6 @@ const DEFAULT_BALANCE = 100000;
 export async function createUser(
   userInput: UserCreateInput,
 ): Promise<UserWithToken> {
-  const { hash, salt } = await hashPassword(userInput.password);
-
   // TODO: Make user+key creation into transaction?
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { password, ...rest } = userInput;
@@ -24,8 +22,7 @@ export async function createUser(
       ...rest,
       balance: DEFAULT_BALANCE,
       deposits: DEFAULT_BALANCE,
-      password_hash: hash,
-      salt,
+      password_hash: await hashPassword(userInput.password),
     },
   });
 
@@ -46,11 +43,8 @@ export async function updateUser(
   id: number,
   userUpdates: UserUpdateInput,
 ): Promise<UserWithoutSensitive> {
-  if (userUpdates.password) {
-    const { hash, salt } = await hashPassword(userUpdates.password);
-    userUpdates.password_hash = hash;
-    userUpdates.salt = salt;
-  }
+  if (userUpdates.password)
+    userUpdates.password_hash = await hashPassword(userUpdates.password);
 
   return db.user.update({ where: { id }, data: userUpdates });
 }
