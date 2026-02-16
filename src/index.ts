@@ -15,7 +15,9 @@ import env from "./env";
 import logger from "./logger";
 
 const start = async () => {
-  const f = fastify({ loggerInstance: logger }).withTypeProvider<TypeBoxTypeProvider>();
+  const f = fastify({
+    loggerInstance: logger,
+  }).withTypeProvider<TypeBoxTypeProvider>();
   try {
     await tradeFeed.start();
     await tradeEngine.start();
@@ -70,8 +72,7 @@ const start = async () => {
 
     await f.ready();
 
-    const address = await f.listen({ host: "0.0.0.0", port: 3000 });
-    f.log.info(`Server listening on ${address}`);
+    await f.listen({ host: "0.0.0.0", port: 3000 });
   } catch (err) {
     f.log.error(err);
     process.exit(1);

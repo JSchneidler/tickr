@@ -1,4 +1,3 @@
-import WebSocket from "ws";
 import { Prisma } from "../generated/prisma/client";
 
 import env from "../env";
@@ -44,9 +43,8 @@ const URL = `${FINNHUB_WEBSOCKET_URL}?token=${env.FINNHUB_API_KEY}`;
 const PUBLISH_INTERVAL = 1000; // Remove interval, publish immediately somehow
 
 class TradeFeed {
-  private ws = new WebSocket(URL);
-
-  private publishInterval: Timer | undefined;
+  private ws!: WebSocket;
+  private publishInterval!: Timer;
 
   private coins: CoinResponse[] = [];
   private subscriptions = new Map<string, TradeListener[]>();
@@ -54,63 +52,24 @@ class TradeFeed {
 
   async start() {
     this.coins = await getCoins();
+    this.ws = new WebSocket(URL);
 
-    const connectedPromise = new Promise<void>((resolve, reject) => {
-      const timeout = setTimeout(() => {
-        // TODO: Race condition? What if stop is called while this timeout is running?
-        this.stop();
-        reject(
-          new Error("Connection to Finnhub WSS timed out after 10 seconds"),
-        );
-      }, 10000);
+    await this.waitForConnection();
 
-      this.ws.on("open", () => {
-        clearTimeout(timeout);
-        logger.info("Connected to Finnhub WSS");
-        this.startSubscriptions();
-        resolve();
-      });
-
-      this.ws.on("message", (message: string) => {
-        const response = JSON.parse(message) as SocketMessage;
-        if (response.type == "trade") {
-          const tradesMessage = response as TradesMessage;
-          for (const trade of tradesMessage.data) {
-            const coin = fromSubscriptionFormat(trade.s);
-            const price = new Prisma.Decimal(trade.p);
-
-            const summary = this.tradesSummaries.get(coin);
-            if (summary) {
-              summary.last = price;
-              if (summary.low.greaterThan(trade.p)) summary.low = price;
-              else if (summary.high.lessThan(trade.p)) summary.high = price;
-            } else
-              this.tradesSummaries.set(coin, {
-                last: price,
-                high: price,
-                low: price,
-              });
-          }
-        }
-      });
-
-      this.ws.on("error", (error) => {
-        clearTimeout(timeout);
-        logger.error(error);
-        reject(error);
-      });
+    this.ws.addEventListener("message", (event: MessageEvent<string>) => {
+      this.handleMessage(event);
     });
 
-    this.publishInterval = setInterval(() => {
-      void this.publish(); // TODO: Race condition? Should make sure publish finishes before publishing again
-    }, PUBLISH_INTERVAL);
+    this.startSubscriptions();
 
-    return connectedPromise;
+    this.publishInterval = setInterval(() => {
+      void this.publish();
+    }, PUBLISH_INTERVAL);
   }
 
   stop() {
-    this.ws.close();
     clearInterval(this.publishInterval);
+    this.ws.close();
   }
 
   getLastPrices(): LivePrice[] {
@@ -125,6 +84,53 @@ class TradeFeed {
     }
 
     return last;
+  }
+
+  private waitForConnection(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => {
+        this.stop();
+        reject(
+          new Error("Connection to Finnhub WSS timed out after 10 seconds"),
+        );
+      }, 10000);
+
+      this.ws.addEventListener("open", () => {
+        clearTimeout(timeout);
+        logger.info("Connected to Finnhub WSS");
+        resolve();
+      });
+
+      this.ws.addEventListener("error", () => {
+        clearTimeout(timeout);
+        logger.error("Error occurred in Finnhub WSS");
+        reject(new Error("Error occurred in Finnhub WSS"));
+      });
+    });
+  }
+
+  private handleMessage(event: MessageEvent<string>) {
+    const response = JSON.parse(event.data) as SocketMessage;
+    if (response.type !== "trade") return;
+
+    const tradesMessage = response as TradesMessage;
+    for (const trade of tradesMessage.data) {
+      const coin = fromSubscriptionFormat(trade.s);
+      const price = new Prisma.Decimal(trade.p);
+
+      const summary = this.tradesSummaries.get(coin);
+      if (summary) {
+        summary.last = price;
+        if (summary.low.greaterThan(trade.p)) summary.low = price;
+        else if (summary.high.lessThan(trade.p)) summary.high = price;
+      } else {
+        this.tradesSummaries.set(coin, {
+          last: price,
+          high: price,
+          low: price,
+        });
+      }
+    }
   }
 
   private startSubscriptions() {
