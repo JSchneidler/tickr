@@ -1,0 +1,9 @@
+---
+services:
+  ui:
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./dist:/usr/share/nginx/html:ro
+    restart: unless-stopped

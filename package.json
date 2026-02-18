@@ -1,0 +1,16 @@
+{
+  "name": "tickr",
+  "private": true,
+  "workspaces": ["client", "server"],
+  "scripts": {
+    "dev": "bun --filter '*' dev",
+    "dev:client": "bun --filter tickr-client dev",
+    "dev:server": "bun --filter tickr-server dev",
+    "build": "bun --filter '*' build",
+    "lint": "bun --filter '*' lint",
+    "format": "bun --filter '*' format"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}

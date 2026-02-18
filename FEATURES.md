@@ -1,0 +1,4 @@
+- Leaderboards
+- Stocks
+- Shorting
+- Options? Other types of trading?
