@@ -8,6 +8,7 @@
     "dev:server": "bun --filter tickr-server dev",
     "build": "bun --filter '*' build",
     "lint": "bun --filter '*' lint",
+    "lint:fix": "bun --filter '*' lint:fix",
     "format": "bun --filter '*' format",
     "prepare": "husky"
   },

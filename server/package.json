@@ -37,6 +37,7 @@
     "db:migrate": "prisma db push && prisma generate",
     "format": "prettier src/ --write",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "start": "bun ./src/index.ts"
   },
   "type": "module"
