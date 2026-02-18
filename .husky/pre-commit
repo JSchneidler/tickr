@@ -1,3 +1,3 @@
 bunx lint-staged
-bun lint
+bun lint -- --fix
 bun run build

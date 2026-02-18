@@ -7,7 +7,7 @@
     "build": "bunx --bun vite build",
     "dev": "bunx --bun vite",
     "format": "prettier . --write",
-    "lint": "eslint . --fix",
+    "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {

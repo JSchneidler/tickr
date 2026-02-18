@@ -36,7 +36,7 @@
     "db:fetch_coins": "bun ./src/jobs/fetch_coins.ts",
     "db:migrate": "prisma db push && prisma generate",
     "format": "prettier src/ --write",
-    "lint": "eslint . --fix",
+    "lint": "eslint .",
     "start": "bun ./src/index.ts"
   },
   "type": "module"
