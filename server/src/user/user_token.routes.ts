@@ -1,11 +1,8 @@
 import { FastifyInstance } from "fastify";
 
 import { errorResponseSchemas } from "../error_responses.schema";
-import {
-  getTokenParams,
-  tokenResponse,
-  tokensResponse,
-} from "../token/token.schema";
+import { tokenResponse, tokensResponse } from "@tickr/shared";
+import { getTokenParams } from "../token/token.schema";
 import {
   getUserTokenHandler,
   getUserTokensHandler,

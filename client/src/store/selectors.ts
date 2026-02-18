@@ -4,10 +4,10 @@ import {
   TypedUseQueryStateResult,
 } from "@reduxjs/toolkit/query/react";
 
-import { Holding } from "./api/schema";
+import { type HoldingResponse } from "@tickr/shared";
 
 type GetHoldingSelectFromResultArg = TypedUseQueryStateResult<
-  Holding[],
+  HoldingResponse[],
   unknown,
   BaseQueryFn
 >;

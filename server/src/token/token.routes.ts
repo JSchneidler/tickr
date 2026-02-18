@@ -10,10 +10,10 @@ import {
 } from "./token.controller";
 import {
   createTokenRequestBody,
-  getTokenParams,
   tokenResponse,
   tokensResponse,
-} from "./token.schema";
+} from "@tickr/shared";
+import { getTokenParams } from "./token.schema";
 import { authenticate, requireAdmin } from "../auth";
 
 export default function (f: FastifyInstance) {

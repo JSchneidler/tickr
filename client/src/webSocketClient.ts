@@ -1,23 +1,15 @@
-import { Order } from "./store/api/schema";
+import {
+  WebSocketMessageType,
+  type PriceUpdate,
+  type WebSocketMessage,
+  type OrderResponse,
+} from "@tickr/shared";
 
-export enum WebSocketMessageType {
-  ORDER_FILLED = "ORDER_FILLED",
-  WATCH = "WATCH",
-}
-
-export interface PriceUpdate {
-  coinId: number;
-  price: string;
-}
+export { WebSocketMessageType, type PriceUpdate };
 
 interface PayloadMap {
-  [WebSocketMessageType.ORDER_FILLED]: Order;
+  [WebSocketMessageType.ORDER_FILLED]: OrderResponse;
   [WebSocketMessageType.WATCH]: PriceUpdate[];
-}
-
-export interface WebSocketMessage<T extends WebSocketMessageType> {
-  type: T;
-  payload: PayloadMap[T];
 }
 
 type MessageListener<T extends WebSocketMessageType> = (

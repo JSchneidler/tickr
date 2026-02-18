@@ -1,7 +1,6 @@
 import { Prisma, Coin } from "../generated/prisma/client";
 
 import db from "../db";
-import { CoinHistoricalDataResponse, CoinResponse } from "./coin.schema";
 import {
   CoinOHLC,
   getHistoricalData,
@@ -30,7 +29,7 @@ export async function createCoin(
   });
 }
 
-export async function getCoins(): Promise<CoinResponse[]> {
+export async function getCoins() {
   const coins = await db.coin.findMany({ take: 100 });
 
   const promises: Promise<CoinOHLC | string>[] = [];
@@ -55,7 +54,7 @@ export async function getCoins(): Promise<CoinResponse[]> {
   });
 }
 
-export async function getCoin(id: number): Promise<CoinResponse> {
+export async function getCoin(id: number) {
   const coin = await db.coin.findUniqueOrThrow({ where: { id } });
 
   const ohlc = await getOHLC(coin.externalId);
@@ -71,10 +70,7 @@ export async function getCoin(id: number): Promise<CoinResponse> {
   };
 }
 
-export async function getCoinHistoricalData(
-  coinId: number,
-  daysAgo = 1,
-): Promise<CoinHistoricalDataResponse> {
+export async function getCoinHistoricalData(coinId: number, daysAgo = 1) {
   const coin = await db.coin.findUniqueOrThrow({ where: { id: coinId } });
 
   return getHistoricalData(coin.externalId, daysAgo);

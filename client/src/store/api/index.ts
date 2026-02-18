@@ -3,16 +3,20 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import dayjs from "dayjs";
 
 import {
-  User,
-  RegisterRequest,
-  LoginRequest,
-  CoinWithQuote,
-  Holding,
-  Order,
-  CreateOrder,
-  CoinHistoricalData,
-  CoinHistoricalDataRequest,
-} from "./schema";
+  type UserResponse,
+  type CreateUserRequestBody,
+  type LoginRequestBody,
+  type CoinResponse,
+  type HoldingResponse,
+  type OrderResponse,
+  type CreateOrderRequestBody,
+  type CoinHistoricalDataResponse,
+} from "@tickr/shared";
+
+interface CoinHistoricalDataRequest {
+  coinId: number;
+  daysAgo: number;
+}
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -22,7 +26,7 @@ export const api = createApi({
   tagTypes: ["User", "Coin", "Holding", "Order"],
   endpoints: (builder) => ({
     // Auth
-    register: builder.mutation<User, RegisterRequest>({
+    register: builder.mutation<UserResponse, CreateUserRequestBody>({
       query: (credentials) => ({
         url: "/auth/register",
         method: "POST",
@@ -30,7 +34,7 @@ export const api = createApi({
       }),
       invalidatesTags: ["User"],
     }),
-    login: builder.mutation<User, LoginRequest>({
+    login: builder.mutation<UserResponse, LoginRequestBody>({
       query: (credentials) => ({
         url: "/auth/login",
         method: "POST",
@@ -53,21 +57,21 @@ export const api = createApi({
         }
       },
     }),
-    me: builder.query<User | undefined, void>({
+    me: builder.query<UserResponse | undefined, void>({
       query: () => "/me",
       providesTags: ["User"],
     }),
 
     // Coins
-    getCoins: builder.query<CoinWithQuote[], void>({
+    getCoins: builder.query<CoinResponse[], void>({
       query: () => "/coins",
       providesTags: ["Coin"],
     }),
-    getCoin: builder.query<CoinWithQuote, number>({
+    getCoin: builder.query<CoinResponse, number>({
       query: (coinId) => `/coins/${coinId.toString()}`,
     }),
     getCoinHistoricalData: builder.query<
-      CoinHistoricalData,
+      CoinHistoricalDataResponse,
       CoinHistoricalDataRequest
     >({
       query: ({ coinId, daysAgo }) =>
@@ -75,17 +79,17 @@ export const api = createApi({
     }),
 
     // Holdings
-    getMyHoldings: builder.query<Holding[], void>({
+    getMyHoldings: builder.query<HoldingResponse[], void>({
       query: () => "/me/holdings",
       providesTags: ["Holding"],
     }),
 
     // Orders
-    getMyOrders: builder.query<Order[], void>({
+    getMyOrders: builder.query<OrderResponse[], void>({
       query: () => "/me/orders",
       providesTags: ["Order"],
     }),
-    createOrder: builder.mutation<Order, CreateOrder>({
+    createOrder: builder.mutation<OrderResponse, CreateOrderRequestBody>({
       query: (orderRequest) => ({
         url: "/orders",
         method: "POST",
@@ -100,8 +104,11 @@ export const api = createApi({
               id: 0,
               userId: 0,
               filled: false,
+              sharePrice: null,
+              totalPrice: null,
               createdAt: now,
               updatedAt: now,
+              deletedAt: null,
             });
           }),
         );

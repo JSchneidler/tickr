@@ -1,7 +1,8 @@
 import { FastifyRequest } from "fastify";
 
 import { createToken, getToken, getTokens, revokeToken } from "./token.service";
-import { CreateTokenRequestBody, GetTokenParams } from "./token.schema";
+import { type CreateTokenRequestBody } from "@tickr/shared";
+import { type GetTokenParams } from "./token.schema";
 import { getAuthUser } from "../auth";
 
 export async function createTokenHandler(

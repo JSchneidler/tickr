@@ -1,7 +1,13 @@
 import { FastifyInstance } from "fastify";
 
 import { errorResponseSchemas } from "../error_responses.schema";
-import { userResponse } from "./user.schema";
+import {
+  userResponse,
+  holdingsResponse,
+  tokenResponse,
+  tokensResponse,
+  ordersResponse,
+} from "@tickr/shared";
 import {
   getMeHandler,
   getMyTokensHandler,
@@ -9,9 +15,6 @@ import {
   getMyHoldingsHandler,
   getMyOrdersHandler,
 } from "./me.controller";
-import { holdingsResponse } from "../holding/holding.schema";
-import { tokenResponse, tokensResponse } from "../token/token.schema";
-import { ordersResponse } from "../order/order.schema";
 import { authenticate } from "../auth";
 
 export default function (f: FastifyInstance) {

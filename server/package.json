@@ -1,5 +1,5 @@
 {
-  "name": "tickr-server",
+  "name": "@tickr/server",
   "version": "0.0.1",
   "main": "src/index.ts",
   "dependencies": {
@@ -13,6 +13,7 @@
     "@prisma/adapter-libsql": "^7.3.0",
     "@prisma/client": "7.3.0",
     "@sinclair/typebox": "^0.34.48",
+    "@tickr/shared": "workspace:*",
     "fast-jwt": "^6.1.0",
     "fastify": "^5.7.4",
     "fastify-graceful-shutdown": "^5.0.0",

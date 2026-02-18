@@ -2,11 +2,11 @@ import { FastifyInstance } from "fastify";
 
 import { errorResponseSchemas } from "../error_responses.schema";
 import {
-  getOrderParams,
   orderResponse,
   ordersResponse,
   updateOrderRequestBody,
-} from "../order/order.schema";
+} from "@tickr/shared";
+import { getOrderParams } from "../order/order.schema";
 import {
   deleteUserOrderHandler,
   getUserOrderHandler,

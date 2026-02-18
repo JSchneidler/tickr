@@ -5,7 +5,7 @@ import Decimal from "decimal.js";
 import dayjs from "dayjs";
 
 import { useGetCoinHistoricalDataQuery } from "../../store/api";
-import { CoinHistoricalData } from "../../store/api/schema";
+import { type CoinHistoricalDataResponse } from "@tickr/shared";
 import { useLivePrice } from "../../hooks/useLivePrice";
 
 interface ChartProps {
@@ -41,7 +41,7 @@ const CHART_CONFIGS: Record<
 };
 
 function computeChartData(
-  historicalData: CoinHistoricalData | undefined,
+  historicalData: CoinHistoricalDataResponse | undefined,
   timespan: Timespan,
 ) {
   let high: Decimal | undefined;

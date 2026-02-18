@@ -5,8 +5,9 @@ import {
   getOrdersForUser,
   updateOrder,
 } from "../order/order.service";
-import { GetUserParams } from "./user.schema";
-import { GetOrderParams, UpdateOrderRequestBody } from "../order/order.schema";
+import { type UpdateOrderRequestBody } from "@tickr/shared";
+import { type GetUserParams } from "./user.schema";
+import { type GetOrderParams } from "../order/order.schema";
 
 export async function getUserOrdersHandler(
   req: FastifyRequest<{

@@ -1,7 +1,8 @@
 import { FastifyRequest } from "fastify";
 
 import { getUsers, getUser, updateUser, deleteUser } from "./user.service";
-import { GetUserParams, UpdateUserRequestBody } from "./user.schema";
+import { type UpdateUserRequestBody } from "@tickr/shared";
+import { type GetUserParams } from "./user.schema";
 
 export async function getUsersHandler() {
   return getUsers();

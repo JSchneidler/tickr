@@ -10,10 +10,10 @@ import {
 } from "./order.service";
 
 import {
-  CreateOrderRequestBody,
-  GetOrderParams,
-  UpdateOrderRequestBody,
-} from "./order.schema";
+  type CreateOrderRequestBody,
+  type UpdateOrderRequestBody,
+} from "@tickr/shared";
+import { type GetOrderParams } from "./order.schema";
 import { getAuthUser } from "../auth";
 
 export async function createOrderHandler(

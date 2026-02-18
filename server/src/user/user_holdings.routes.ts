@@ -2,11 +2,11 @@ import { FastifyInstance } from "fastify";
 
 import { errorResponseSchemas } from "../error_responses.schema";
 import {
-  getHoldingParams,
   holdingResponse,
   holdingsResponse,
   updateHoldingRequestBody,
-} from "../holding/holding.schema";
+} from "@tickr/shared";
+import { getHoldingParams } from "../holding/holding.schema";
 import {
   deleteUserHoldingHandler,
   getUserHoldingHandler,

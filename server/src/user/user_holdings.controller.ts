@@ -6,11 +6,9 @@ import {
   updateHolding,
   deleteHolding,
 } from "../holding/holding.service";
-import { GetUserParams } from "./user.schema";
-import {
-  GetHoldingParams,
-  UpdateHoldingRequestBody,
-} from "../holding/holding.schema";
+import { type UpdateHoldingRequestBody } from "@tickr/shared";
+import { type GetUserParams } from "./user.schema";
+import { type GetHoldingParams } from "../holding/holding.schema";
 
 export async function getUserHoldingsHandler(
   req: FastifyRequest<{ Params: GetUserParams }>,

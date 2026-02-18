@@ -1,8 +1,10 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 
 import { createUser } from "../user/user.service";
-import { CreateUserRequestBody } from "../user/user.schema";
-import { LoginRequestBody } from "./auth.schema";
+import {
+  type CreateUserRequestBody,
+  type LoginRequestBody,
+} from "@tickr/shared";
 import { login } from "./auth.service";
 // import { revokeToken } from "../token/token.service";
 import logger from "../logger";

@@ -11,11 +11,11 @@ import {
 } from "./order.controller";
 import {
   createOrderRequestBody,
-  getOrderParams,
   orderResponse,
   ordersResponse,
   updateOrderRequestBody,
-} from "./order.schema";
+} from "@tickr/shared";
+import { getOrderParams } from "./order.schema";
 import { authenticate, requireAdmin } from "../auth";
 
 export default function (f: FastifyInstance) {

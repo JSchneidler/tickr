@@ -5,7 +5,7 @@ import {
 } from "@reduxjs/toolkit";
 
 import { RootState } from ".";
-import { PriceUpdate } from "../webSocketClient";
+import { type PriceUpdate } from "@tickr/shared";
 
 const pricesAdapter = createEntityAdapter({
   selectId: (livePrice: PriceUpdate) => livePrice.coinId,

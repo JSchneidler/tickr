@@ -9,11 +9,10 @@ import {
 } from "./coin.controller";
 import {
   coinsResponse,
-  getCoinParams,
   coinResponse,
-  getCoinHistoricalDataParams,
   coinHistoricalDataResponse,
-} from "./coin.schema";
+} from "@tickr/shared";
+import { getCoinParams, getCoinHistoricalDataParams } from "./coin.schema";
 
 export default function (f: FastifyInstance) {
   f.get(

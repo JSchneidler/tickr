@@ -1,11 +1,11 @@
 {
   "name": "tickr",
   "private": true,
-  "workspaces": ["client", "server"],
+  "workspaces": ["shared", "client", "server"],
   "scripts": {
     "dev": "bun --filter '*' dev",
-    "dev:client": "bun --filter tickr-client dev",
-    "dev:server": "bun --filter tickr-server dev",
+    "dev:client": "bun --filter @tickr/client dev",
+    "dev:server": "bun --filter @tickr/server dev",
     "build": "bun --filter '*' build",
     "lint": "bun --filter '*' lint",
     "lint:fix": "bun --filter '*' lint:fix",
@@ -17,6 +17,7 @@
     "lint-staged": "^15.5.1"
   },
   "lint-staged": {
+    "shared/src/**/*.{ts,js,json,md}": "prettier --write",
     "client/src/**/*.{ts,tsx,js,jsx,json,css,md}": "prettier --write",
     "server/src/**/*.{ts,js,json,md}": "prettier --write"
   }

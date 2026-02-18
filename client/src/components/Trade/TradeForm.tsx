@@ -17,7 +17,7 @@ import {
   useGetMyHoldingsQuery,
   useMeQuery,
 } from "../../store/api";
-import { OrderDirection, OrderType } from "../../store/api/schema";
+import { OrderDirection, OrderType } from "@tickr/shared";
 import Dollars from "../Dollars";
 import { selectHoldingForCoin } from "../../store/selectors";
 import { skipToken } from "@reduxjs/toolkit/query";

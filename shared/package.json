@@ -1,0 +1,24 @@
+{
+  "name": "@tickr/shared",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "dependencies": {
+    "@sinclair/typebox": "^0.34.48"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@tsconfig/node24": "^24.0.4",
+    "@types/bun": "^1.3.9",
+    "eslint": "^10.0.0",
+    "prettier": "^3.8.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.0"
+  },
+  "scripts": {
+    "format": "prettier src/ --write",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  }
+}

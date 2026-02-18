@@ -6,8 +6,11 @@ import {
   loginHandler,
   logoutHandler,
 } from "./auth.controller";
-import { createUserRequestBody, userResponse } from "../user/user.schema";
-import { loginRequestBody } from "./auth.schema";
+import {
+  createUserRequestBody,
+  userResponse,
+  loginRequestBody,
+} from "@tickr/shared";
 import { authenticate } from ".";
 
 export default function (f: FastifyInstance) {

@@ -3,11 +3,7 @@ import tradeFeed from "./apis/tradeFeed";
 import { WebsocketHandler } from "@fastify/websocket";
 
 import logger from "./logger";
-
-enum WebSocketMessageType {
-  ORDER_FILLED = "ORDER_FILLED",
-  WATCH = "WATCH",
-}
+import { WebSocketMessageType } from "@tickr/shared";
 
 const websocketHandler: WebsocketHandler = (socket, req) => {
   if (req.user) {

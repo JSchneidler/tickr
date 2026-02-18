@@ -2,7 +2,6 @@ import { Prisma } from "../generated/prisma/client";
 
 import env from "../env";
 import { getCoins } from "../coin/coin.service";
-import { CoinResponse } from "../coin/coin.schema";
 import logger from "../logger";
 
 interface Trade {
@@ -46,7 +45,7 @@ class TradeFeed {
   private ws!: WebSocket;
   private publishInterval!: Timer;
 
-  private coins: CoinResponse[] = [];
+  private coins: Awaited<ReturnType<typeof getCoins>> = [];
   private subscriptions = new Map<string, TradeListener[]>();
   private tradesSummaries = new Map<string, TradesSummary>();
 

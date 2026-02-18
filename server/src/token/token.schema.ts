@@ -1,14 +1,7 @@
 import { Prisma } from "../generated/prisma/client";
-import {
-  Object as TObj,
-  String as TStr,
-  Number as TNum,
-  Array as TArr,
-  type Static,
-} from "@sinclair/typebox";
+import { Object as TObj, type Static } from "@sinclair/typebox";
 
-import { userId } from "../user/user.schema";
-import { DateTime, NullableDateTime } from "../types";
+import { tokenId } from "@tickr/shared";
 
 // Prisma
 export type TokenWithoutSensitive = Prisma.AccessTokenGetPayload<{
@@ -21,22 +14,7 @@ export interface CreateToken {
 }
 
 // API
-const tokenId = TNum();
 export const getTokenParams = TObj({
   tokenId,
 });
 export type GetTokenParams = Static<typeof getTokenParams>;
-
-export const createTokenRequestBody = TObj({
-  name: TStr({ minLength: 1 }),
-});
-export type CreateTokenRequestBody = Static<typeof createTokenRequestBody>;
-
-export const tokenResponse = TObj({
-  ...createTokenRequestBody.properties,
-  id: tokenId,
-  userId: userId,
-  createdAt: DateTime,
-  revokedAt: NullableDateTime,
-});
-export const tokensResponse = TArr(tokenResponse);

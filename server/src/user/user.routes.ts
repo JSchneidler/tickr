@@ -12,11 +12,11 @@ import orderRoutes from "./user_order.routes";
 
 import { errorResponseSchemas } from "../error_responses.schema";
 import {
-  getUserParams,
   updateUserRequestBody,
   usersResponse,
   userResponse,
-} from "./user.schema";
+} from "@tickr/shared";
+import { getUserParams } from "./user.schema";
 import { requireAdmin } from "../auth";
 
 export default async function (f: FastifyInstance) {
