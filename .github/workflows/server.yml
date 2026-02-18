@@ -1,4 +1,4 @@
-name: Build
+name: Server
 
 on: push
 
