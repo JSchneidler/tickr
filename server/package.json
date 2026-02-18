@@ -1,6 +1,6 @@
 {
   "name": "tickr-server",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "src/index.ts",
   "dependencies": {
     "@fastify/cookie": "^11.0.2",
