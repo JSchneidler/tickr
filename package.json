@@ -18,7 +18,7 @@
     "fastify-graceful-shutdown": "^5.0.0",
     "fastify-plugin": "^5.1.0",
     "pino": "^10.3.1",
-    "prisma": "^7.3.0"
+    "prisma": "^7.4.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
