@@ -1,0 +1,24 @@
+name: Client
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "client/**"
+  pull_request:
+    branches: [main]
+    paths:
+      - "client/**"
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bun lint
+      - run: bun run build
