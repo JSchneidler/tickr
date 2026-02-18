@@ -13,6 +13,7 @@
 
 # Generated
 src/generated
+dist
 
 # Assets/Dependencies
 node_modules

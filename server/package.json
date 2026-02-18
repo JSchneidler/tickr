@@ -31,7 +31,7 @@
     "typescript-eslint": "^8.55.0"
   },
   "scripts": {
-    "build": "bun build ./src/index.ts --target=bun --production",
+    "build": "bun build ./src/index.ts --target=bun --production --outdir dist",
     "dev": "bun --hot ./src/index.ts | pino-pretty",
     "db:fetch_coins": "bun ./src/jobs/fetch_coins.ts",
     "db:migrate": "prisma db push && prisma generate",
