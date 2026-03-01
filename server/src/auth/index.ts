@@ -1,6 +1,5 @@
 import {
   FastifyInstance,
-  FastifyReply,
   FastifyRequest,
   RouteGenericInterface,
 } from "fastify";
@@ -55,22 +54,23 @@ export function getAuthUser(req: FastifyRequest): UserWithoutSensitive {
   return req.user;
 }
 
+function httpError(statusCode: number, message: string) {
+  const err = new Error(message) as Error & { statusCode: number };
+  err.statusCode = statusCode;
+  return err;
+}
+
 export function authenticate<T extends RouteGenericInterface>(
   req: FastifyRequest<T>,
-  rep: FastifyReply,
 ) {
-  if (!req.user) rep.code(401).send();
+  if (!req.user) throw httpError(401, "Unauthorized");
 }
 
 export function requireAdmin<T extends RouteGenericInterface>(
   req: FastifyRequest<T>,
-  rep: FastifyReply,
 ) {
-  if (!req.user) {
-    rep.code(401).send();
-    return;
-  }
-  if (req.user.role !== "ADMIN") rep.code(403).send();
+  if (!req.user) throw httpError(401, "Unauthorized");
+  if (req.user.role !== "ADMIN") throw httpError(403, "Forbidden");
 }
 
 export default FastifyPlugin(async (f: FastifyInstance) => {

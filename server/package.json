@@ -34,12 +34,15 @@
   "scripts": {
     "build": "bun build ./src/index.ts --target=bun --production --outdir dist",
     "dev": "bun --hot ./src/index.ts | pino-pretty",
-    "db:fetch_coins": "bun ./src/jobs/fetch_coins.ts",
+    "db:fetch_coins": "bun ./src/jobs/fetch_coins.ts | pino-pretty",
     "db:migrate": "prisma db push && prisma generate",
+    "db:reset": "rm dev.db && bun db:migrate && bun db:fetch_coins && bun db:seed",
+    "db:seed": "bun tests/seed.ts | pino-pretty",
     "format": "prettier src/ --write",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "start": "bun ./src/index.ts"
+    "start": "bun ./src/index.ts | pino-pretty",
+    "test": "DATABASE_URL=file:test.db bunx prisma db push && bun test | pino-pretty"
   },
   "type": "module"
 }

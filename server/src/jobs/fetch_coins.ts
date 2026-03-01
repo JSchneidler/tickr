@@ -8,8 +8,14 @@ import logger from "../logger";
 
 async function fetchCoins() {
   const coins: Prisma.CoinCreateInput[] = [];
-
+  let skippedCoins = 0;
   for (const coin of SUPPORTED_COINS) {
+    // Filter out coins that already exist
+    if (await db.coin.findFirst({ where: { externalId: coin.externalId } })) {
+      skippedCoins++;
+      continue;
+    }
+
     const coinData = await getCoinData(coin.externalId);
     coins.push({
       ...coin,
@@ -23,7 +29,9 @@ async function fetchCoins() {
     data: coins,
   });
 
-  logger.info(`Registered ${coins.length.toString()} coins`);
+  logger.info(
+    `Registered ${coins.length.toString()} coins (${skippedCoins.toString()} already exist)`,
+  );
 }
 
 void fetchCoins();
