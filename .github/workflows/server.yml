@@ -27,7 +27,7 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: cp .env.example .env
       - run: bun install --frozen-lockfile
-      - run: bun db:migrate
+      - run: DATABASE_URL=file:./test.db bun db:migrate
       - run: bun lint
       - run: bun run build
       - run: bun run test
