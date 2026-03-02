@@ -5,10 +5,14 @@ on:
     branches: [main]
     paths:
       - "server/**"
+      - "bun.lock"
+      - "package.json"
   pull_request:
     branches: [main]
     paths:
       - "server/**"
+      - "bun.lock"
+      - "package.json"
 
 jobs:
   ci:
