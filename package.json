@@ -1,5 +1,6 @@
 {
   "name": "tickr",
+  "version": "0.0.1",
   "private": true,
   "workspaces": ["shared", "client", "server"],
   "scripts": {
