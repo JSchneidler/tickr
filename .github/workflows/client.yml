@@ -7,12 +7,14 @@ on:
       - "client/**"
       - "bun.lock"
       - "package.json"
+      - ".github/workflows/client.yml"
   pull_request:
     branches: [main]
     paths:
       - "client/**"
       - "bun.lock"
       - "package.json"
+      - ".github/workflows/client.yml"
 
 jobs:
   ci:

@@ -7,12 +7,14 @@ on:
       - "server/**"
       - "bun.lock"
       - "package.json"
+      - ".github/workflows/server.yml"
   pull_request:
     branches: [main]
     paths:
       - "server/**"
       - "bun.lock"
       - "package.json"
+      - ".github/workflows/server.yml"
 
 jobs:
   ci:
