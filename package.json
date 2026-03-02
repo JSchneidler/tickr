@@ -9,6 +9,7 @@
     "build": "bun --filter '*' build",
     "lint": "bun --filter '*' lint",
     "lint:fix": "bun --filter '*' lint:fix",
+    "test": "bun --filter @tickr/server test",
     "format": "bun --filter '*' format",
     "prepare": "husky"
   },
