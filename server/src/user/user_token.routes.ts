@@ -1,4 +1,4 @@
-import { FastifyInstance } from "fastify";
+import type { FastifyInstance } from "fastify";
 
 import { errorResponseSchemas } from "../error_responses.schema";
 import { tokenResponse, tokensResponse } from "@tickr/shared";

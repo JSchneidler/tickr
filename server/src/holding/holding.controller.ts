@@ -1,7 +1,7 @@
-import { FastifyRequest } from "fastify";
+import type { FastifyRequest } from "fastify";
 
 import { getHolding, getHoldings } from "./holding.service";
-import { GetHoldingParams } from "./holding.schema";
+import type { GetHoldingParams } from "./holding.schema";
 
 export async function getHoldingsHandler() {
   return getHoldings();

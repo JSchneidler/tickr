@@ -7,7 +7,7 @@
     "build": "bunx --bun vite build",
     "dev": "bunx --bun vite",
     "format": "prettier . --write",
-    "lint": "eslint .",
+    "lint": "tsc --noEmit && eslint .",
     "lint:fix": "eslint . --fix",
     "preview": "vite preview"
   },

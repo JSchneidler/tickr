@@ -1,8 +1,8 @@
-import { Prisma, Coin } from "../generated/prisma/client";
+import { Prisma, type Coin } from "../generated/prisma/client";
 
 import db from "../db";
 import {
-  CoinOHLC,
+  type CoinOHLC,
   getHistoricalData,
   getOHLC,
   getPrice,

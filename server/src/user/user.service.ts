@@ -1,8 +1,8 @@
 import db from "../db";
 import { hashPassword } from "../auth";
 import { createToken } from "../token/token.service";
-import { UserWithToken } from "../auth/auth.schema";
-import {
+import type { UserWithToken } from "../auth/auth.schema";
+import type {
   UserWithoutSensitive,
   UserCreateInput,
   UserUpdateInput,

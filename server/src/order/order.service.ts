@@ -2,7 +2,7 @@ import { OrderDirection, Prisma } from "../generated/prisma/client";
 
 import db from "../db";
 import tradeEngine from "../tradeEngine";
-import { OrderCreateInput } from "./order.schema";
+import type { OrderCreateInput } from "./order.schema";
 import { getCoin } from "../coin/coin.service";
 
 export async function createOrder(

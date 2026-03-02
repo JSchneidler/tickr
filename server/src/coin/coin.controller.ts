@@ -1,7 +1,7 @@
-import { FastifyRequest } from "fastify";
+import type { FastifyRequest } from "fastify";
 
 import { getCoin, getCoinHistoricalData, getCoins } from "./coin.service";
-import { GetCoinHistoricalDataParams, GetCoinParams } from "./coin.schema";
+import type { GetCoinHistoricalDataParams, GetCoinParams } from "./coin.schema";
 
 export async function getCoinsHandler() {
   return getCoins();

@@ -1,7 +1,7 @@
 import { Prisma } from "../generated/prisma/client";
 
 import db from "../db";
-import { UserWithoutSensitive } from "../user/user.schema";
+import type { UserWithoutSensitive } from "../user/user.schema";
 
 export async function createHolding(
   holdingInput: Prisma.HoldingCreateInput,

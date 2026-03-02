@@ -1,13 +1,13 @@
 import {
-  Order,
+  type Order,
   OrderDirection,
   OrderType,
   Prisma,
-  Coin,
+  type Coin,
 } from "../generated/prisma/client";
 
 import db from "../db";
-import tradeFeed, { TradesSummary, UnSubFn } from "../apis/tradeFeed";
+import tradeFeed, { type TradesSummary, type UnSubFn } from "../apis/tradeFeed";
 import { getUser, updateUser } from "../user/user.service";
 import { updateOrder } from "../order/order.service";
 import { deleteHolding, updateHolding } from "../holding/holding.service";

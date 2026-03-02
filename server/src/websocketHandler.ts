@@ -1,6 +1,6 @@
 import tradeEngine from "./tradeEngine";
 import tradeFeed from "./apis/tradeFeed";
-import { WebsocketHandler } from "@fastify/websocket";
+import type { WebsocketHandler } from "@fastify/websocket";
 
 import logger from "./logger";
 import { WebSocketMessageType } from "@tickr/shared";

@@ -1,11 +1,11 @@
-import { FastifyRequest } from "fastify";
-import { GetUserParams } from "./user.schema";
+import type { FastifyRequest } from "fastify";
+import type { GetUserParams } from "./user.schema";
 import {
   getToken,
   getTokensForUser,
   revokeToken,
 } from "../token/token.service";
-import { GetTokenParams } from "../token/token.schema";
+import type { GetTokenParams } from "../token/token.schema";
 
 export async function getUserTokensHandler(
   req: FastifyRequest<{ Params: GetUserParams }>,

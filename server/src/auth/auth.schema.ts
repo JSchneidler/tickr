@@ -1,4 +1,4 @@
-import { UserWithoutSensitive } from "../user/user.schema";
+import type { UserWithoutSensitive } from "../user/user.schema";
 
 // Prisma
 export interface UserWithToken {

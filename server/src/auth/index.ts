@@ -1,14 +1,14 @@
-import {
+import type {
   FastifyInstance,
   FastifyRequest,
   RouteGenericInterface,
 } from "fastify";
 import FastifyPlugin from "fastify-plugin";
-import fastifyJwt, { JWT } from "@fastify/jwt";
+import fastifyJwt, { type JWT } from "@fastify/jwt";
 import { createSigner } from "fast-jwt";
 
 import env from "../env";
-import { UserWithoutSensitive } from "../user/user.schema";
+import type { UserWithoutSensitive } from "../user/user.schema";
 import { getUser } from "../user/user.service";
 
 declare module "fastify" {
@@ -45,7 +45,7 @@ export async function generateJwt(user: UserWithoutSensitive) {
   });
   return {
     token,
-    hash: new Bun.CryptoHasher("sha256").update(token).digest(),
+    hash: new Uint8Array(new Bun.CryptoHasher("sha256").update(token).digest()),
   };
 }
 
@@ -60,13 +60,17 @@ function httpError(statusCode: number, message: string) {
   return err;
 }
 
-export function authenticate<T extends RouteGenericInterface>(
+// TODO: Remove eslint-disable?
+// eslint-disable-next-line @typescript-eslint/require-await
+export async function authenticate<T extends RouteGenericInterface>(
   req: FastifyRequest<T>,
 ) {
   if (!req.user) throw httpError(401, "Unauthorized");
 }
 
-export function requireAdmin<T extends RouteGenericInterface>(
+// TODO: Remove eslint-disable?
+// eslint-disable-next-line @typescript-eslint/require-await
+export async function requireAdmin<T extends RouteGenericInterface>(
   req: FastifyRequest<T>,
 ) {
   if (!req.user) throw httpError(401, "Unauthorized");

@@ -1,4 +1,4 @@
-import { FastifyRequest } from "fastify";
+import type { FastifyRequest } from "fastify";
 
 import { getUsers, getUser, updateUser, deleteUser } from "./user.service";
 import { type UpdateUserRequestBody } from "@tickr/shared";

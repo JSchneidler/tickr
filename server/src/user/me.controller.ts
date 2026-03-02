@@ -1,8 +1,8 @@
-import { FastifyRequest } from "fastify";
+import type { FastifyRequest } from "fastify";
 
 import { getUser } from "./user.service";
 import { getTokensForUser, getToken } from "../token/token.service";
-import { GetTokenParams } from "../token/token.schema";
+import type { GetTokenParams } from "../token/token.schema";
 import { getHoldingsForUser } from "../holding/holding.service";
 import { getOrdersForUser } from "../order/order.service";
 import { getAuthUser } from "../auth";

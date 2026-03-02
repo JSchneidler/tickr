@@ -1,7 +1,7 @@
 import db from "../db";
 import { comparePasswordHash } from ".";
 import { createToken } from "../token/token.service";
-import { UserWithToken } from "./auth.schema";
+import type { UserWithToken } from "./auth.schema";
 
 export async function login(
   email: string,

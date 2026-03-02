@@ -1,6 +1,6 @@
 import db from "../db";
-import { CreateToken, TokenWithoutSensitive } from "./token.schema";
-import { UserWithoutSensitive } from "../user/user.schema";
+import type { CreateToken, TokenWithoutSensitive } from "./token.schema";
+import type { UserWithoutSensitive } from "../user/user.schema";
 
 import { generateJwt } from "../auth";
 

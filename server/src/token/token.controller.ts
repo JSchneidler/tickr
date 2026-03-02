@@ -1,4 +1,4 @@
-import { FastifyRequest } from "fastify";
+import type { FastifyRequest } from "fastify";
 
 import { createToken, getToken, getTokens, revokeToken } from "./token.service";
 import { type CreateTokenRequestBody } from "@tickr/shared";

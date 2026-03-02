@@ -39,10 +39,9 @@
     "db:reset": "rm dev.db && bun db:migrate && bun db:fetch_coins && bun db:seed",
     "db:seed": "bun tests/seed.ts | pino-pretty",
     "format": "prettier src/ --write",
-    "lint": "eslint .",
+    "lint": "tsc --noEmit && eslint .",
     "lint:fix": "eslint . --fix",
-    "start": "bun ./src/index.ts | pino-pretty",
-    "test": "DATABASE_URL=file:test.db bunx prisma db push && bun test | pino-pretty"
+    "start": "bun ./src/index.ts | pino-pretty"
   },
   "type": "module"
 }
