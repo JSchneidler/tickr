@@ -8,6 +8,7 @@
 
 # Sensitive
 .env*
+!.env.example
 *.db
 *.db-journal
 

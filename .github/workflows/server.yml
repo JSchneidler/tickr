@@ -25,6 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
+      - run: cp .env.example .env
       - run: bun install --frozen-lockfile
       - run: bun db:migrate
       - run: bun lint
