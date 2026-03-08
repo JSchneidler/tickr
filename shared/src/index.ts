@@ -56,5 +56,6 @@ export { loginRequestBody, type LoginRequestBody } from "./auth";
 export {
   WebSocketMessageType,
   type PriceUpdate,
+  type LeaderboardEntry,
   type WebSocketMessage,
 } from "./websocket";

@@ -5,6 +5,7 @@ import { RootState } from ".";
 import { WebSocketClient, WebSocketMessageType } from "../webSocketClient";
 import { api } from "./api";
 import { pricesUpdated } from "./livePrices";
+import { leaderboardUpdated } from "./leaderboard";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export const webSocketMiddleware: Middleware<{}, RootState> = (store) => {
@@ -17,6 +18,10 @@ export const webSocketMiddleware: Middleware<{}, RootState> = (store) => {
   function attachListeners() {
     webSocketClient.listen(WebSocketMessageType.WATCH, (prices) => {
       store.dispatch(pricesUpdated(prices));
+    });
+
+    webSocketClient.listen(WebSocketMessageType.LEADERBOARD, (entries) => {
+      store.dispatch(leaderboardUpdated(entries));
     });
 
     webSocketClient.listen(WebSocketMessageType.ORDER_FILLED, (order) => {

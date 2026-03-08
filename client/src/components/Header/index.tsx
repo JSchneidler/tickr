@@ -23,8 +23,11 @@ import {
   useMeQuery,
 } from "../../store/api";
 import { usePortfolioValue } from "../../hooks/usePortfolioValue";
+import { useAppSelector } from "../../store/hooks";
+import { selectMyRank } from "../../store/leaderboard";
 import Dollars from "../Dollars";
 import Gain from "../Gain";
+import Leaderboard, { rankDisplay } from "../Leaderboard";
 
 import "./Header.css";
 
@@ -41,9 +44,11 @@ function Header() {
   const [logout] = useLogoutMutation();
 
   const portfolioValue = usePortfolioValue();
+  const myRankEntry = useAppSelector(selectMyRank(user?.id));
 
   const [opened, setOpened] = useState(false);
   const [isRegistration, setIsRegistration] = useState(false);
+  const [leaderboardOpened, setLeaderboardOpened] = useState(false);
 
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme("dark", {
@@ -87,6 +92,10 @@ function Header() {
 
   return (
     <>
+      <Leaderboard
+        opened={leaderboardOpened}
+        onClose={() => setLeaderboardOpened(false)}
+      />
       <Modal
         opened={opened}
         title={isRegistration ? "Register" : "Login"}
@@ -147,6 +156,15 @@ function Header() {
                     changePercent={portfolioValue.changePercent}
                   />
                 </>
+              )}
+              {myRankEntry && (
+                <Button
+                  variant="subtle"
+                  onClick={() => setLeaderboardOpened(true)}
+                  title="View leaderboard"
+                >
+                  {rankDisplay(myRankEntry.rank)}
+                </Button>
               )}
               <Button
                 variant="subtle"

@@ -4,6 +4,7 @@ import type { WebsocketHandler } from "@fastify/websocket";
 
 import logger from "./logger";
 import { WebSocketMessageType } from "@tickr/shared";
+import leaderboardBroadcaster from "./leaderboard/leaderboardBroadcaster";
 
 function livePricesMessage() {
   return JSON.stringify({
@@ -28,6 +29,8 @@ const websocketHandler: WebsocketHandler = (socket, req) => {
     });
   } else logger.info(`Guest connected: ${req.ip}`);
 
+  leaderboardBroadcaster.addClient(socket);
+
   const interval = setInterval(() => {
     socket.send(livePricesMessage());
   }, 1000);
@@ -44,6 +47,7 @@ const websocketHandler: WebsocketHandler = (socket, req) => {
       tradeEngine.removeLiveUser(req.user.id);
     } else logger.info(`Guest disconnected: ${req.ip}`);
 
+    leaderboardBroadcaster.removeClient(socket);
     clearInterval(interval);
   });
 };

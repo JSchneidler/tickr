@@ -7,6 +7,7 @@ import {
 import { api } from "./api";
 import theme from "./themeSlice";
 import livePrices from "./livePrices";
+import leaderboard from "./leaderboard";
 import { webSocketMiddleware } from "./webSocketMiddleware";
 
 // combineReducers avoids a circular dependency with AppStore and the webSocketMiddleware.
@@ -14,6 +15,7 @@ import { webSocketMiddleware } from "./webSocketMiddleware";
 const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,
   livePrices,
+  leaderboard,
   theme,
 });
 

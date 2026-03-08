@@ -1,15 +1,17 @@
 import {
   WebSocketMessageType,
   type PriceUpdate,
+  type LeaderboardEntry,
   type WebSocketMessage,
   type OrderResponse,
 } from "@tickr/shared";
 
-export { WebSocketMessageType, type PriceUpdate };
+export { WebSocketMessageType, type PriceUpdate, type LeaderboardEntry };
 
 interface PayloadMap {
   [WebSocketMessageType.ORDER_FILLED]: OrderResponse;
   [WebSocketMessageType.WATCH]: PriceUpdate[];
+  [WebSocketMessageType.LEADERBOARD]: LeaderboardEntry[];
 }
 
 type MessageListener<T extends WebSocketMessageType> = (

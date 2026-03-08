@@ -2,6 +2,7 @@ import fastifyGracefulShutdown from "fastify-graceful-shutdown";
 
 import tradeFeed from "./apis/tradeFeed";
 import tradeEngine from "./tradeEngine";
+import leaderboardBroadcaster from "./leaderboard/leaderboardBroadcaster";
 import { buildApp } from "./app";
 
 const start = async () => {
@@ -10,6 +11,7 @@ const start = async () => {
   try {
     await tradeFeed.start();
     await tradeEngine.start();
+    leaderboardBroadcaster.start();
 
     await f.register(fastifyGracefulShutdown);
 
@@ -17,6 +19,7 @@ const start = async () => {
       f.gracefulShutdown((signal) => {
         f.log.info(`Shutting down: ${signal}`);
         tradeFeed.stop();
+        leaderboardBroadcaster.stop();
       });
     });
 
