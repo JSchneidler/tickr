@@ -21,8 +21,10 @@ export {
   coinResponse,
   coinsResponse,
   coinHistoricalDataResponse,
+  coinOHLCDataResponse,
   type CoinResponse,
   type CoinHistoricalDataResponse,
+  type CoinOHLCDataResponse,
 } from "./coin";
 export {
   orderId,

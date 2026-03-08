@@ -17,11 +17,17 @@ import {
   type OrderResponse,
   type CreateOrderRequestBody,
   type CoinHistoricalDataResponse,
+  type CoinOHLCDataResponse,
 } from "@tickr/shared";
 
 import type { RootState } from "..";
 
 interface CoinHistoricalDataRequest {
+  coinId: number;
+  daysAgo: number;
+}
+
+interface CoinOHLCDataRequest {
   coinId: number;
   daysAgo: number;
 }
@@ -102,6 +108,10 @@ export const api = createApi({
       query: ({ coinId, daysAgo }) =>
         `/coins/${coinId.toString()}/historical/${daysAgo.toString()}`,
     }),
+    getCoinOHLCData: builder.query<CoinOHLCDataResponse, CoinOHLCDataRequest>({
+      query: ({ coinId, daysAgo }) =>
+        `/coins/${coinId.toString()}/ohlc/${daysAgo.toString()}`,
+    }),
 
     // Holdings
     getMyHoldings: builder.query<HoldingResponse[], void>({
@@ -163,7 +173,9 @@ export const api = createApi({
             return draft.filter((order) => order.id !== orderId);
           }),
         );
-        queryFulfilled.catch(() => patch.undo());
+        queryFulfilled.catch(() => {
+          patch.undo();
+        });
       },
     }),
   }),
@@ -177,6 +189,7 @@ export const {
   useGetCoinsQuery,
   useGetCoinQuery,
   useGetCoinHistoricalDataQuery,
+  useGetCoinOHLCDataQuery,
   useGetMyHoldingsQuery,
   useLazyGetMyHoldingsQuery,
   useGetMyOrdersQuery,

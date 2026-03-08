@@ -83,6 +83,17 @@ export async function getOHLC(coinId: string): Promise<CoinOHLC> {
   };
 }
 
+export async function getOHLCHistory(
+  coinId: string,
+  days: number,
+): Promise<CoinOHLCResponse> {
+  const request = baseRequest(
+    `/coins/${coinId}/ohlc?vs_currency=usd&days=${days.toString()}`,
+  );
+  const response = await fetch(request);
+  return (await response.json()) as CoinOHLCResponse;
+}
+
 export async function getHistoricalData(coinId: string, daysAgo: number) {
   function convertNums(data: [number, number]): [number, string] {
     return [data[0], data[1].toString()];

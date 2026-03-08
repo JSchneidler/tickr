@@ -5,6 +5,7 @@ import {
   type CoinOHLC,
   getHistoricalData,
   getOHLC,
+  getOHLCHistory,
   getPrice,
 } from "../apis/coingecko_api";
 
@@ -61,4 +62,11 @@ export async function getCoinHistoricalData(coinId: number, daysAgo = 1) {
   const coin = await db.coin.findUniqueOrThrow({ where: { id: coinId } });
 
   return getHistoricalData(coin.externalId, daysAgo);
+}
+
+export async function getCoinOHLCData(coinId: number, daysAgo = 1) {
+  const coin = await db.coin.findUniqueOrThrow({ where: { id: coinId } });
+  const ohlc = await getOHLCHistory(coin.externalId, daysAgo);
+
+  return { ohlc };
 }

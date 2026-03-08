@@ -50,3 +50,9 @@ export const coinHistoricalDataResponse = TObj({
 export type CoinHistoricalDataResponse = Static<
   typeof coinHistoricalDataResponse
 >;
+
+const ohlcCandle = Tuple([TNum(), TNum(), TNum(), TNum(), TNum()]);
+export const coinOHLCDataResponse = TObj({
+  ohlc: TArr(ohlcCandle),
+});
+export type CoinOHLCDataResponse = Static<typeof coinOHLCDataResponse>;

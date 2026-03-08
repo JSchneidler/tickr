@@ -27,7 +27,7 @@ export const webSocketMiddleware: Middleware<{}, RootState> = (store) => {
 
       const quantity = order.shares_filled
         ? `${order.shares_filled} shares`
-        : `$${order.cost_filled}`;
+        : `$${order.cost_filled ?? ""}`;
 
       if (coin && order.shares_filled)
         notifications.show({

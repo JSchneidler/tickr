@@ -6,13 +6,19 @@ import {
   getCoinsHandler,
   getCoinHandler,
   getCoinHistoricalDataHandler,
+  getCoinOHLCDataHandler,
 } from "./coin.controller";
 import {
   coinsResponse,
   coinResponse,
   coinHistoricalDataResponse,
+  coinOHLCDataResponse,
 } from "@tickr/shared";
-import { getCoinParams, getCoinHistoricalDataParams } from "./coin.schema";
+import {
+  getCoinParams,
+  getCoinHistoricalDataParams,
+  getCoinOHLCDataParams,
+} from "./coin.schema";
 
 export default function (f: FastifyInstance) {
   f.get(
@@ -54,5 +60,19 @@ export default function (f: FastifyInstance) {
       },
     },
     getCoinHistoricalDataHandler,
+  );
+
+  f.get(
+    "/:coinId/ohlc/:daysAgo",
+    {
+      schema: {
+        params: getCoinOHLCDataParams,
+        response: {
+          ...errorResponseSchemas,
+          200: coinOHLCDataResponse,
+        },
+      },
+    },
+    getCoinOHLCDataHandler,
   );
 }

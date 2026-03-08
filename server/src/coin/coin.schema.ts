@@ -15,3 +15,9 @@ export const getCoinHistoricalDataParams = TObj({
 export type GetCoinHistoricalDataParams = Static<
   typeof getCoinHistoricalDataParams
 >;
+
+export const getCoinOHLCDataParams = TObj({
+  ...getCoinParams.properties,
+  daysAgo: TNum(),
+});
+export type GetCoinOHLCDataParams = Static<typeof getCoinOHLCDataParams>;

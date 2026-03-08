@@ -12,7 +12,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mantine/charts": "^8.3.14",
     "@mantine/core": "^8.3.14",
     "@mantine/dates": "^8.3.14",
     "@mantine/form": "^8.3.14",
@@ -23,6 +22,7 @@
     "dayjs": "^1.11.19",
     "decimal.js": "^10.6.0",
     "js-cookie": "^3.0.5",
+    "lightweight-charts": "^5.1.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-error-boundary": "^6.1.0",
@@ -30,8 +30,7 @@
     "react-redux": "^9.2.0",
     "react-router": "^7.13.0",
     "react-select": "^5.10.2",
-    "react-svg": "^16.4.2",
-    "recharts": "^3.7.0"
+    "react-svg": "^16.4.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",

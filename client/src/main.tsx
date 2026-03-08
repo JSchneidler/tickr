@@ -7,7 +7,6 @@ import { store } from "./store";
 import App from "./App.tsx";
 
 import "@mantine/core/styles.css";
-import "@mantine/charts/styles.css";
 import "@mantine/notifications/styles.css";
 
 // @ts-expect-error: #root always exists
