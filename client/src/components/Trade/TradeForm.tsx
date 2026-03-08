@@ -1,12 +1,12 @@
 import { useMemo, useState } from "react";
 import {
   Button,
-  Group,
   SegmentedControl,
   NumberInput,
   Text,
   ActionIcon,
   Center,
+  Stack,
 } from "@mantine/core";
 import { useField } from "@mantine/form";
 import Decimal from "decimal.js";
@@ -143,7 +143,7 @@ function TradeForm({ coinId }: OrdersProps) {
   );
 
   return (
-    <>
+    <Stack gap="sm">
       <SegmentedControl
         data={[
           { value: OrderType.MARKET, label: "Market" },
@@ -169,41 +169,48 @@ function TradeForm({ coinId }: OrdersProps) {
       {orderType === OrderType.LIMIT && (
         <NumberInput placeholder="Limit" allowNegative={false} />
       )}
-      <Group>
-        <Button.Group w="100%">
-          <Button
-            disabled={buyDisabled}
-            onClick={() => {
-              buy();
-            }}
-            color="green"
-            fullWidth
-          >
-            Buy
-          </Button>
-          <Button
-            disabled={sellDisabled}
-            onClick={() => {
-              sell();
-            }}
-            color="red"
-            fullWidth
-          >
-            Sell
-          </Button>
-        </Button.Group>
-        {cost && (
-          <Center w="100%">
+      <Button.Group w="100%">
+        <Button
+          disabled={buyDisabled}
+          onClick={() => {
+            buy();
+          }}
+          color="green"
+          fullWidth
+          size="md"
+        >
+          Buy
+        </Button>
+        <Button
+          disabled={sellDisabled}
+          onClick={() => {
+            sell();
+          }}
+          color="red"
+          fullWidth
+          size="md"
+        >
+          Sell
+        </Button>
+      </Button.Group>
+      {cost && (
+        <Center>
+          <Stack gap={0} align="center">
+            <Text size="xs" c="dimmed">
+              {quantityType === QuantityType.SHARES
+                ? "Est. cost"
+                : "Est. shares"}
+            </Text>
             {quantityType === QuantityType.SHARES && (
               <Dollars value={cost.toString()} />
             )}
             {quantityType === QuantityType.MONEY && (
               <Text>{cost.toString()} shares</Text>
             )}
-          </Center>
-        )}
-      </Group>
-    </>
+          </Stack>
+        </Center>
+      )}
+    </Stack>
   );
 }
 

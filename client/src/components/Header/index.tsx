@@ -9,6 +9,7 @@ import {
   useMantineColorScheme,
   useComputedColorScheme,
   Text,
+  Stack,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { TbSunHigh, TbMoon } from "react-icons/tb";
@@ -64,9 +65,6 @@ function Header() {
   const onFormSubmit = useMemo(
     () =>
       form.onSubmit((values) => {
-        // dispatch(isRegistration ? register({ ...values }) : login({ ...values }));
-        // setOpened(false);
-
         // @ts-expect-error: values.name is being checked
         if (isRegistration && values.name) void register({ ...values });
         else if (!isRegistration) void login({ ...values });
@@ -97,18 +95,7 @@ function Header() {
           setOpened(false);
         }}
       >
-        <form
-          onSubmit={onFormSubmit}
-          // onSubmit={form.onSubmit((values) => {
-          //   // TODO: Move to function, don't close unless success
-          //   // @ts-expect-error: values.name is being checked
-          //   if (isRegistration && values.name) void register({ ...values });
-          //   else if (!isRegistration) void login({ ...values });
-
-          //   setOpened(false);
-          //   form.reset();
-          // })}
-        >
+        <form onSubmit={onFormSubmit}>
           <TextInput
             required
             label="Email"
@@ -141,11 +128,20 @@ function Header() {
         <Group>
           {user && (
             <>
-              <Text>{user.name}: </Text>
-              <Dollars value={user.balance} />
+              <Stack gap={0} align="flex-end">
+                <Text size="xs" c="dimmed">
+                  Cash
+                </Text>
+                <Dollars value={user.balance} />
+              </Stack>
               {portfolioValue && (
                 <>
-                  <Dollars value={portfolioValue.value} />
+                  <Stack gap={0} align="flex-end">
+                    <Text size="xs" c="dimmed">
+                      Portfolio
+                    </Text>
+                    <Dollars value={portfolioValue.value} />
+                  </Stack>
                   <Gain
                     change={portfolioValue.change}
                     changePercent={portfolioValue.changePercent}
@@ -153,11 +149,12 @@ function Header() {
                 </>
               )}
               <Button
+                variant="subtle"
                 onClick={() => {
                   void logout();
                 }}
               >
-                Logout
+                Log out
               </Button>
             </>
           )}

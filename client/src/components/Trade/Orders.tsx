@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { TbTrash } from "react-icons/tb";
-import { ActionIcon, Center, Table, Title } from "@mantine/core";
+import { ActionIcon, Center, Table, Text } from "@mantine/core";
 
 import { useDeleteOrderMutation, useGetMyOrdersQuery } from "../../store/api";
 
@@ -21,7 +21,9 @@ function Orders({ coinId }: OrdersProps) {
   if (orders.length === 0)
     return (
       <Center>
-        <Title order={3}>No active orders</Title>
+        <Text c="dimmed" size="sm">
+          No active orders
+        </Text>
       </Center>
     );
 
@@ -47,8 +49,10 @@ function Orders({ coinId }: OrdersProps) {
 
   return (
     <div>
-      <Title order={4}>Active Orders</Title>
-      <Table>
+      <Text fw={500} mb="xs">
+        Active Orders
+      </Text>
+      <Table striped highlightOnHover>
         <Table.Thead>
           <Table.Tr>
             <Table.Th>Direction</Table.Th>

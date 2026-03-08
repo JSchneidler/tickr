@@ -5,9 +5,18 @@ import type { WebsocketHandler } from "@fastify/websocket";
 import logger from "./logger";
 import { WebSocketMessageType } from "@tickr/shared";
 
+function livePricesMessage() {
+  return JSON.stringify({
+    type: WebSocketMessageType.WATCH,
+    payload: tradeFeed.getLastPrices(),
+  });
+}
+
 const websocketHandler: WebsocketHandler = (socket, req) => {
   if (req.user) {
     logger.info(`User connected: ${req.user.name}(${req.user.id.toString()})`);
+
+    socket.send(livePricesMessage());
 
     tradeEngine.addLiveUser(req.user.id, (order) => {
       socket.send(
@@ -20,12 +29,7 @@ const websocketHandler: WebsocketHandler = (socket, req) => {
   } else logger.info(`Guest connected: ${req.ip}`);
 
   const interval = setInterval(() => {
-    socket.send(
-      JSON.stringify({
-        type: WebSocketMessageType.WATCH,
-        payload: tradeFeed.getLastPrices(),
-      }),
-    );
+    socket.send(livePricesMessage());
   }, 1000);
 
   socket.on("error", (error) => {

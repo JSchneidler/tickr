@@ -64,7 +64,8 @@ function App() {
     DEFAULT_THEME,
     createTheme({
       primaryColor,
-      fontFamily: "Verdana, sans-serif",
+      fontFamily: "Inter, sans-serif",
+      defaultRadius: "md",
     }),
   );
 

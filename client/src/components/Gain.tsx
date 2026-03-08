@@ -19,7 +19,7 @@ function Gain({ change, changePercent, ...rest }: GainProps & TextProps) {
   return (
     <Text c={color} {...rest}>
       {prefix}
-      {change} ({changeDecimal.toDecimalPlaces(2).toString()}%)
+      {new Decimal(change).toFixed(2)} ({changeDecimal.toFixed(2)}%)
     </Text>
   );
 }

@@ -9,7 +9,6 @@ import App from "./App.tsx";
 import "@mantine/core/styles.css";
 import "@mantine/charts/styles.css";
 import "@mantine/notifications/styles.css";
-import "./index.css";
 
 // @ts-expect-error: #root always exists
 createRoot(document.getElementById("root")).render(

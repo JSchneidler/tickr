@@ -1,5 +1,13 @@
 import { ReactElement, useState } from "react";
-import { Title, Container, Text, Divider, Stack, Group } from "@mantine/core";
+import {
+  Title,
+  Container,
+  Text,
+  Stack,
+  Group,
+  Paper,
+  Grid,
+} from "@mantine/core";
 
 import CoinSelector from "../CoinSelector";
 import { useGetCoinQuery, useMeQuery } from "../../store/api";
@@ -34,50 +42,58 @@ function Trade() {
   const { price, change, changePercent } = useLivePrice(coinId);
 
   return (
-    <div>
+    <Container size="xl">
       <CoinSelector
         onCoinSelect={(id) => {
           setCoinId(+id);
         }}
       />
       {coin && (
-        <Container size="xl" pt={50}>
-          <Title order={3} fw="normal">
-            {coin.displayName} ({coin.name})
-          </Title>
-          <Title>
-            <Dollars value={price} size="xl" fw="bolder" />
-            <Gain change={change} changePercent={changePercent} size="md" />
-          </Title>
-          <Divider m={10} />
-          <Group justify="space-between" align="flex-start" grow>
+        <Grid mt="lg">
+          <Grid.Col span={{ base: 12, md: 8 }}>
             <Stack>
-              {coinId && <Chart coinId={coinId} />}
-              <Info
-                label="Range"
-                element={
-                  <span>
-                    {<Dollars value={coin.dayLow} />} -{" "}
-                    {<Dollars value={coin.dayHigh} />}
-                  </span>
-                }
-              />
+              <Paper withBorder p="md">
+                <Title order={3} fw="normal" mb={4}>
+                  {coin.displayName} ({coin.name})
+                </Title>
+                <Group align="baseline" gap="xs" mb="sm">
+                  <Dollars value={price} size="xl" fw="bolder" />
+                  <Gain
+                    change={change}
+                    changePercent={changePercent}
+                    size="md"
+                  />
+                </Group>
+                {coinId && <Chart coinId={coinId} />}
+                <Info
+                  label="Range"
+                  element={
+                    <span>
+                      {<Dollars value={coin.dayLow} />} –{" "}
+                      {<Dollars value={coin.dayHigh} />}
+                    </span>
+                  }
+                />
+              </Paper>
+              <Text size="sm" c="dimmed">
+                {coin.description}
+              </Text>
             </Stack>
-            {user && (
-              <Stack>
-                <TradeForm coinId={coinId} />
-                <Divider m={10} />
-                <Holding coinId={coinId} />
-                <Divider m={10} />
-                <Orders coinId={coinId} />
-              </Stack>
-            )}
-          </Group>
-          <Divider m={10} />
-          <Text>{coin.description}</Text>
-        </Container>
+          </Grid.Col>
+          {user && (
+            <Grid.Col span={{ base: 12, md: 4 }}>
+              <Paper withBorder p="md">
+                <Stack>
+                  <TradeForm coinId={coinId} />
+                  <Holding coinId={coinId} />
+                  <Orders coinId={coinId} />
+                </Stack>
+              </Paper>
+            </Grid.Col>
+          )}
+        </Grid>
       )}
-    </div>
+    </Container>
   );
 }
 

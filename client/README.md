@@ -68,20 +68,20 @@ src/
 
 ### API Endpoints Consumed
 
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/api/auth/register` | Create account |
-| POST | `/api/auth/login` | Login |
-| POST | `/api/auth/logout` | Logout |
-| GET | `/api/me` | Current user profile |
-| GET | `/api/coins` | List all coins |
-| GET | `/api/coins/:id` | Coin detail with quote |
-| GET | `/api/coins/:id/historical/:days` | Historical price data |
-| GET | `/api/me/holdings` | User holdings |
-| GET | `/api/me/orders` | User orders |
-| POST | `/api/orders` | Place order |
-| PATCH | `/api/orders/:id` | Update order |
-| DELETE | `/api/orders/:id` | Cancel order |
+| Method | Endpoint                          | Description            |
+| ------ | --------------------------------- | ---------------------- |
+| POST   | `/api/auth/register`              | Create account         |
+| POST   | `/api/auth/login`                 | Login                  |
+| POST   | `/api/auth/logout`                | Logout                 |
+| GET    | `/api/me`                         | Current user profile   |
+| GET    | `/api/coins`                      | List all coins         |
+| GET    | `/api/coins/:id`                  | Coin detail with quote |
+| GET    | `/api/coins/:id/historical/:days` | Historical price data  |
+| GET    | `/api/me/holdings`                | User holdings          |
+| GET    | `/api/me/orders`                  | User orders            |
+| POST   | `/api/orders`                     | Place order            |
+| PATCH  | `/api/orders/:id`                 | Update order           |
+| DELETE | `/api/orders/:id`                 | Cancel order           |
 
 ## Deployment
 

@@ -11,7 +11,7 @@ function Dollars({ value, ...rest }: DollarsProps & TextProps) {
       <Text display="inline-flex" {...rest}>
         <NumberFormatter
           prefix="$"
-          value={new Decimal(value).toDecimalPlaces(2).toString()}
+          value={new Decimal(value).toFixed(2)}
           thousandSeparator
         />
       </Text>

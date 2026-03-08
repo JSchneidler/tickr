@@ -3,6 +3,9 @@ import { SegmentedControl, SegmentedControlItem } from "@mantine/core";
 import { LineChart } from "@mantine/charts";
 import Decimal from "decimal.js";
 import dayjs from "dayjs";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+
+dayjs.extend(localizedFormat);
 
 import { useGetCoinHistoricalDataQuery } from "../../store/api";
 import { type CoinHistoricalDataResponse } from "@tickr/shared";
