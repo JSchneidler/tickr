@@ -1,5 +1,11 @@
 /* eslint @typescript-eslint/no-invalid-void-type: 0 */
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {
+  createApi,
+  fetchBaseQuery,
+  type BaseQueryFn,
+  type FetchArgs,
+  type FetchBaseQueryError,
+} from "@reduxjs/toolkit/query/react";
 import dayjs from "dayjs";
 
 import {
@@ -13,16 +19,38 @@ import {
   type CoinHistoricalDataResponse,
 } from "@tickr/shared";
 
+import type { RootState } from "..";
+
 interface CoinHistoricalDataRequest {
   coinId: number;
   daysAgo: number;
 }
 
+const rawBaseQuery = fetchBaseQuery({
+  baseUrl: `http://${window.location.hostname}:3000/api`,
+  credentials: "include",
+});
+
+const baseQueryWithAuth: BaseQueryFn<
+  string | FetchArgs,
+  unknown,
+  FetchBaseQueryError
+> = async (args, queryApi, extraOptions) => {
+  const result = await rawBaseQuery(args, queryApi, extraOptions);
+
+  if (result.error?.status === 401) {
+    const state = queryApi.getState() as RootState;
+    const cachedUser = api.endpoints.me.select()(state).data;
+    if (cachedUser) {
+      queryApi.dispatch(api.util.resetApiState());
+    }
+  }
+
+  return result;
+};
+
 export const api = createApi({
-  baseQuery: fetchBaseQuery({
-    baseUrl: `http://${window.location.hostname}:3000/api`,
-    credentials: "include",
-  }),
+  baseQuery: baseQueryWithAuth,
   tagTypes: ["User", "Coin", "Holding", "Order"],
   endpoints: (builder) => ({
     // Auth
@@ -48,13 +76,10 @@ export const api = createApi({
         method: "POST",
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        try {
-          await queryFulfilled;
-
-          dispatch(api.util.resetApiState()); // TODO: Clear all private state (user, orders, holdings)
-        } catch (error) {
-          console.error("Logout failed:", error);
-        }
+        await queryFulfilled.catch((err: unknown) => {
+          console.error(err);
+        });
+        dispatch(api.util.resetApiState());
       },
     }),
     me: builder.query<UserResponse | undefined, void>({

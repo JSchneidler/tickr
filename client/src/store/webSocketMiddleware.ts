@@ -45,8 +45,8 @@ export const webSocketMiddleware: Middleware<{}, RootState> = (store) => {
       isAnyOf(
         api.endpoints.register.matchFulfilled,
         api.endpoints.login.matchFulfilled,
-        api.endpoints.logout.matchFulfilled,
-      )(action)
+      )(action) ||
+      api.util.resetApiState.match(action)
     ) {
       webSocketClient.disconnect();
       webSocketClient.connect();
