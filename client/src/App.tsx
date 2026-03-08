@@ -17,7 +17,7 @@ import { useAppSelector } from "./store/hooks";
 import { selectPrimaryColor } from "./store/themeSlice";
 
 import Header from "./components/Header";
-import Trade from "./components/Trade";
+import Dashboard from "./components/Dashboard";
 import {
   useMeQuery,
   useGetCoinsQuery,
@@ -80,7 +80,7 @@ function App() {
             </AppShell.Header>
             <AppShell.Main h="100%">
               <Routes>
-                <Route index path="/" element={<Trade />} />
+                <Route index path="/" element={<Dashboard />} />
                 <Route path="/trade" element={<h1>Trade</h1>} />
                 <Route path="/portfolio" element={<h1>Portfolio</h1>} />
                 <Route path="/account" element={<h1>Account</h1>} />
