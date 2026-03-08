@@ -60,7 +60,7 @@ function httpError(statusCode: number, message: string) {
   return err;
 }
 
-// TODO: Remove eslint-disable?
+// TODO: Remove eslint-disable? Fastify hangs for some reason without the async
 // eslint-disable-next-line @typescript-eslint/require-await
 export async function authenticate<T extends RouteGenericInterface>(
   req: FastifyRequest<T>,
@@ -68,7 +68,7 @@ export async function authenticate<T extends RouteGenericInterface>(
   if (!req.user) throw httpError(401, "Unauthorized");
 }
 
-// TODO: Remove eslint-disable?
+// TODO: Remove eslint-disable? Fastify hangs for some reason without the async
 // eslint-disable-next-line @typescript-eslint/require-await
 export async function requireAdmin<T extends RouteGenericInterface>(
   req: FastifyRequest<T>,
