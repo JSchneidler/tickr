@@ -27,7 +27,8 @@ import { useAppSelector } from "../../store/hooks";
 import { selectMyRank } from "../../store/leaderboard";
 import Dollars from "../Dollars";
 import Gain from "../Gain";
-import Leaderboard, { rankDisplay } from "../Leaderboard";
+import Leaderboard from "../Leaderboard";
+import rankDisplay from "../Leaderboard/rankDisplay";
 
 import "./Header.css";
 
@@ -94,7 +95,9 @@ function Header() {
     <>
       <Leaderboard
         opened={leaderboardOpened}
-        onClose={() => setLeaderboardOpened(false)}
+        onClose={() => {
+          setLeaderboardOpened(false);
+        }}
       />
       <Modal
         opened={opened}
@@ -160,7 +163,9 @@ function Header() {
               {myRankEntry && (
                 <Button
                   variant="subtle"
-                  onClick={() => setLeaderboardOpened(true)}
+                  onClick={() => {
+                    setLeaderboardOpened(true);
+                  }}
                   title="View leaderboard"
                 >
                   {rankDisplay(myRankEntry.rank)}

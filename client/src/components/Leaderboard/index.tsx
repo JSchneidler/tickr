@@ -3,18 +3,11 @@ import { Modal, Table, Badge, Text } from "@mantine/core";
 import { useAppSelector } from "../../store/hooks";
 import { selectLeaderboard } from "../../store/leaderboard";
 import { useMeQuery } from "../../store/api";
-
-const MEDALS = ["🥇", "🥈", "🥉"];
+import rankDisplay from "./rankDisplay";
 
 interface LeaderboardProps {
   opened: boolean;
   onClose: () => void;
-}
-
-export function rankDisplay(rank: number) {
-  const medal = MEDALS[rank - 1];
-  if (medal) return medal;
-  return `#${rank}`;
 }
 
 function medalColor(rank: number): string {

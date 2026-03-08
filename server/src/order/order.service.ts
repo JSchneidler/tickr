@@ -1,15 +1,18 @@
-import { OrderDirection, Prisma } from "../generated/prisma/client";
+import {
+  OrderDirection as PrismaOrderDirection,
+  Prisma,
+} from "../generated/prisma/client";
 
 import db from "../db";
 import tradeEngine from "../tradeEngine";
-import type { OrderCreateInput } from "./order.schema";
+import { type CreateOrderRequestBody, OrderDirection } from "@tickr/shared";
 import { getCoin } from "../coin/coin.service";
 
 export async function createOrder(
-  orderInput: OrderCreateInput,
+  orderInput: CreateOrderRequestBody,
   userId: number,
-  coinId: number,
 ) {
+  const { coinId, ...orderData } = orderInput;
   const coin = await getCoin(coinId);
 
   if (orderInput.direction === OrderDirection.SELL) {
@@ -21,7 +24,7 @@ export async function createOrder(
         userId,
         coinId: coin.id,
         filled: false,
-        direction: OrderDirection.SELL,
+        direction: PrismaOrderDirection.SELL,
       },
     });
 
@@ -33,17 +36,16 @@ export async function createOrder(
       orderInput.shares &&
       holding.shares.lessThan(
         sharesBeingSoldAgg._sum.shares
-          ? sharesBeingSoldAgg._sum.shares.add(orderInput.shares.toString())
-          : new Prisma.Decimal(orderInput.shares.toString()),
+          ? sharesBeingSoldAgg._sum.shares.add(orderInput.shares)
+          : new Prisma.Decimal(orderInput.shares),
       )
     )
       throw new Error("Insufficient shares in holding");
   }
 
-  // return createOrder(order, req.user);
   const order = await db.order.create({
     data: {
-      ...orderInput,
+      ...orderData,
       User: { connect: { id: userId } },
       Coin: { connect: { id: coin.id } },
     },

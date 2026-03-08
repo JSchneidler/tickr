@@ -20,11 +20,9 @@ export async function createOrderHandler(
   req: FastifyRequest<{ Body: CreateOrderRequestBody }>,
   rep: FastifyReply,
 ) {
-  const { coinId, ...orderInput } = req.body;
-
-  if (orderInput.shares || orderInput.cost)
-    return createOrder(orderInput, getAuthUser(req).id, coinId);
-  else rep.code(400).send("Must specify shares or price");
+  if (req.body.shares || req.body.cost)
+    return createOrder(req.body, getAuthUser(req).id);
+  else rep.code(400).send("Must specify shares or cost");
 }
 
 export async function getOrdersHandler() {

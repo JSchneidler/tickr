@@ -1,4 +1,5 @@
-import type { WebSocket } from "ws";
+import type { WebSocket } from "@fastify/websocket";
+
 import { WebSocketMessageType } from "@tickr/shared";
 
 import logger from "../logger";
