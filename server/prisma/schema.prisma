@@ -85,13 +85,15 @@ model Holding {
 }
 
 model Order {
-  id     Int      @id @default(autoincrement())
-  shares Decimal?
-  price  Decimal?
+  id Int @id @default(autoincrement())
 
-  filled     Boolean  @default(false)
-  sharePrice Decimal?
-  totalPrice Decimal?
+  shares        Decimal?
+  shares_filled Decimal? // # of shares filled if LIMIT and cost was provided
+  cost          Decimal?
+  cost_filled   Decimal? // Final cost if LIMIT and # shares was provided
+  target_price  Decimal? // Only buy at or below this and sell at or above this
+
+  filled Boolean @default(false)
 
   direction OrderDirection
   type      OrderType

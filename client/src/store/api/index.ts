@@ -120,23 +120,36 @@ export const api = createApi({
         method: "POST",
         body: orderRequest,
       }),
-      onQueryStarted(order, { dispatch }) {
-        dispatch(
+      async onQueryStarted(order, { dispatch, queryFulfilled }) {
+        const tempId = -Date.now();
+        const patch = dispatch(
           api.util.updateQueryData("getMyOrders", undefined, (draft) => {
             const now = dayjs().unix().toString();
             draft.push({
               ...order,
-              id: 0,
+              id: tempId,
               userId: 0,
               filled: false,
-              sharePrice: null,
-              totalPrice: null,
+              shares_filled: null,
+              cost_filled: null,
+              target_price: order.target_price ?? null,
               createdAt: now,
               updatedAt: now,
               deletedAt: null,
             });
           }),
         );
+        try {
+          const { data: created } = await queryFulfilled;
+          dispatch(
+            api.util.updateQueryData("getMyOrders", undefined, (draft) => {
+              const idx = draft.findIndex((o) => o.id === tempId);
+              if (idx !== -1) draft[idx] = created;
+            }),
+          );
+        } catch {
+          patch.undo();
+        }
       },
     }),
     deleteOrder: builder.mutation<void, number>({
@@ -144,16 +157,13 @@ export const api = createApi({
         url: `/orders/${orderId.toString()}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Order"],
-      onQueryStarted(orderId, { dispatch }) {
-        dispatch(
+      onQueryStarted(orderId, { dispatch, queryFulfilled }) {
+        const patch = dispatch(
           api.util.updateQueryData("getMyOrders", undefined, (draft) => {
-            Object.assign(
-              draft,
-              draft.filter((order) => order.id !== orderId),
-            );
+            return draft.filter((order) => order.id !== orderId);
           }),
         );
+        queryFulfilled.catch(() => patch.undo());
       },
     }),
   }),

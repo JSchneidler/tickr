@@ -24,7 +24,8 @@ export const orderId = TNum();
 export const createOrderRequestBody = TObj({
   coinId,
   shares: Optional(Decimal),
-  price: Optional(Decimal),
+  cost: Optional(Decimal),
+  target_price: Optional(Decimal),
   direction: Enum(OrderDirection),
   type: Enum(OrderType),
 });
@@ -32,8 +33,9 @@ export type CreateOrderRequestBody = Static<typeof createOrderRequestBody>;
 
 export const updateOrderRequestBody = Pick(createOrderRequestBody, [
   "shares",
+  "cost",
+  "target_price",
   "type",
-  "price",
 ]);
 export type UpdateOrderRequestBody = Static<typeof updateOrderRequestBody>;
 
@@ -42,8 +44,11 @@ export const orderResponse = TObj({
   id: orderId,
   userId,
   filled: Boolean(),
-  sharePrice: NullableDecimal,
-  totalPrice: NullableDecimal,
+  shares: NullableDecimal,
+  shares_filled: NullableDecimal,
+  cost: NullableDecimal,
+  cost_filled: NullableDecimal,
+  target_price: NullableDecimal,
   createdAt: DateTime,
   updatedAt: DateTime,
   deletedAt: NullableDateTime,

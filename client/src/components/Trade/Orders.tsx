@@ -31,8 +31,14 @@ function Orders({ coinId }: OrdersProps) {
     <Table.Tr key={order.id}>
       <Table.Td>{order.direction}</Table.Td>
       <Table.Td>{order.type}</Table.Td>
-      <Table.Td>{order.price}</Table.Td>
-      <Table.Td>{order.shares}</Table.Td>
+      <Table.Td>
+        {order.shares != null
+          ? `${order.shares} shares`
+          : order.cost != null
+            ? `$${order.cost}`
+            : "—"}
+      </Table.Td>
+      <Table.Td>{order.target_price ?? "—"}</Table.Td>
       <Table.Td>
         <ActionIcon
           onClick={() => {
@@ -57,8 +63,8 @@ function Orders({ coinId }: OrdersProps) {
           <Table.Tr>
             <Table.Th>Direction</Table.Th>
             <Table.Th>Type</Table.Th>
-            <Table.Th>Price</Table.Th>
-            <Table.Th>Shares</Table.Th>
+            <Table.Th>Qty</Table.Th>
+            <Table.Th>Limit</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>

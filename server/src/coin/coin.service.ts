@@ -1,4 +1,4 @@
-import { Prisma, type Coin } from "../generated/prisma/client";
+import { Prisma } from "../generated/prisma/client";
 
 import db from "../db";
 import {
@@ -9,24 +9,11 @@ import {
 } from "../apis/coingecko_api";
 
 function calculateChange(open: number, current: number) {
-  return new Prisma.Decimal(current).sub(open).toDecimalPlaces(2).toString();
+  return new Prisma.Decimal(current).sub(open).toFixed(2);
 }
 
 function calculateChangePercent(open: number, current: number) {
-  return new Prisma.Decimal(current)
-    .sub(open)
-    .div(open)
-    .mul(100)
-    .toDecimalPlaces(2)
-    .toString();
-}
-
-export async function createCoin(
-  coinInput: Prisma.CoinCreateInput,
-): Promise<Coin> {
-  return db.coin.create({
-    data: coinInput,
-  });
+  return new Prisma.Decimal(current).sub(open).div(open).mul(100).toFixed(2);
 }
 
 export async function getCoins() {
@@ -74,15 +61,4 @@ export async function getCoinHistoricalData(coinId: number, daysAgo = 1) {
   const coin = await db.coin.findUniqueOrThrow({ where: { id: coinId } });
 
   return getHistoricalData(coin.externalId, daysAgo);
-}
-
-export async function updateCoin(
-  id: number,
-  coinUpdates: Prisma.CoinUpdateInput,
-): Promise<Coin> {
-  return db.coin.update({ where: { id }, data: coinUpdates });
-}
-
-export async function deleteCoin(id: number): Promise<void> {
-  await db.coin.delete({ where: { id } });
 }

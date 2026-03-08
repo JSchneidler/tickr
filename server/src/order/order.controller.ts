@@ -22,7 +22,7 @@ export async function createOrderHandler(
 ) {
   const { coinId, ...orderInput } = req.body;
 
-  if (orderInput.shares || orderInput.price)
+  if (orderInput.shares || orderInput.cost)
     return createOrder(orderInput, getAuthUser(req).id, coinId);
   else rep.code(400).send("Must specify shares or price");
 }

@@ -33,8 +33,8 @@ export async function createOrder(
       orderInput.shares &&
       holding.shares.lessThan(
         sharesBeingSoldAgg._sum.shares
-          ? sharesBeingSoldAgg._sum.shares.add(orderInput.shares)
-          : new Prisma.Decimal(orderInput.shares),
+          ? sharesBeingSoldAgg._sum.shares.add(orderInput.shares.toString())
+          : new Prisma.Decimal(orderInput.shares.toString()),
       )
     )
       throw new Error("Insufficient shares in holding");
@@ -55,11 +55,11 @@ export async function createOrder(
 }
 
 export async function getOrders() {
-  return db.order.findMany();
+  return db.order.findMany({ where: { filled: false } });
 }
 
 export async function getOrdersForUser(userId: number) {
-  return db.order.findMany({ where: { userId } });
+  return db.order.findMany({ where: { userId, filled: false } });
 }
 
 export async function getOrder(id: number) {

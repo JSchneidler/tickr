@@ -8,7 +8,6 @@ import {
   Center,
   Stack,
 } from "@mantine/core";
-import { useField } from "@mantine/form";
 import Decimal from "decimal.js";
 
 import {
@@ -33,6 +32,7 @@ interface OrdersProps {
 
 function TradeForm({ coinId }: OrdersProps) {
   const [quantity, setQuantity] = useState<Decimal>();
+  const [limitPrice, setLimitPrice] = useState<Decimal>();
   const [quantityType, setQuantityType] = useState(QuantityType.SHARES);
   const [orderType, setOrderType] = useState(OrderType.MARKET);
   const { data: user } = useMeQuery();
@@ -44,10 +44,6 @@ function TradeForm({ coinId }: OrdersProps) {
   });
   const [createOrder] = useCreateOrderMutation();
 
-  const quantityField = useField<string | undefined>({
-    initialValue: undefined,
-  });
-
   const cost = useMemo(() => {
     if (!coin || !quantity) return undefined;
     if (quantityType === QuantityType.SHARES)
@@ -56,6 +52,7 @@ function TradeForm({ coinId }: OrdersProps) {
   }, [coin, quantity, quantityType]);
 
   const [buyDisabled, sellDisabled] = useMemo(() => {
+    if (orderType === OrderType.LIMIT && !limitPrice) return [true, true];
     if (!cost || !user || !quantity) return [true, true];
 
     const cst = new Decimal(cost);
@@ -72,7 +69,7 @@ function TradeForm({ coinId }: OrdersProps) {
         quantity.eq(0) || quantity.gt(user.balance),
         !holding || cst.gt(holding.shares),
       ];
-  }, [cost, holding, user, quantityType, quantity]);
+  }, [orderType, limitPrice, cost, user, quantity, quantityType, holding]);
 
   function onValueChange(value: string) {
     try {
@@ -84,35 +81,39 @@ function TradeForm({ coinId }: OrdersProps) {
   }
 
   function buy() {
-    if (coinId)
+    if (coinId && !buyDisabled)
       void createOrder({
         coinId,
         shares:
           quantityType === QuantityType.SHARES
-            ? quantityField.getValue()
+            ? quantity?.toString()
             : undefined,
-        price:
+        cost:
           quantityType === QuantityType.MONEY
-            ? quantityField.getValue()
+            ? quantity?.toString()
             : undefined,
-        type: OrderType.MARKET,
+        target_price:
+          orderType === OrderType.LIMIT ? limitPrice?.toString() : undefined,
+        type: orderType,
         direction: OrderDirection.BUY,
       });
   }
 
   function sell() {
-    if (coinId)
+    if (coinId && !sellDisabled)
       void createOrder({
         coinId,
         shares:
           quantityType === QuantityType.SHARES
-            ? quantityField.getValue()
+            ? quantity?.toString()
             : undefined,
-        price:
+        cost:
           quantityType === QuantityType.MONEY
-            ? quantityField.getValue()
+            ? quantity?.toString()
             : undefined,
-        type: OrderType.MARKET,
+        target_price:
+          orderType === OrderType.LIMIT ? limitPrice?.toString() : undefined,
+        type: orderType,
         direction: OrderDirection.SELL,
       });
   }
@@ -126,7 +127,7 @@ function TradeForm({ coinId }: OrdersProps) {
   function sellAllShares() {
     if (holding) {
       setQuantityType(QuantityType.SHARES);
-      quantityField.setValue(holding.shares);
+      setQuantity(new Decimal(holding.shares));
     }
   }
 
@@ -161,13 +162,23 @@ function TradeForm({ coinId }: OrdersProps) {
         leftSection={quantitySwapButton}
         rightSection={allSharesButton}
         allowNegative={false}
+        value={quantity?.toString() ?? ""}
         onValueChange={(values) => {
           onValueChange(values.formattedValue);
         }}
-        {...quantityField.getInputProps()}
       />
       {orderType === OrderType.LIMIT && (
-        <NumberInput placeholder="Limit" allowNegative={false} />
+        <NumberInput
+          placeholder="Limit price"
+          allowNegative={false}
+          onValueChange={(values) => {
+            try {
+              setLimitPrice(new Decimal(values.formattedValue));
+            } catch {
+              setLimitPrice(undefined);
+            }
+          }}
+        />
       )}
       <Button.Group w="100%">
         <Button

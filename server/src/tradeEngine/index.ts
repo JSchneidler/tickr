@@ -99,13 +99,13 @@ class TradeEngine {
     order: Order,
     coin: Coin,
     sharePrice: Prisma.Decimal,
-    totalPrice: Prisma.Decimal,
+    totalCost: Prisma.Decimal,
   ) {
     this.removeOrder(order, coin);
     const updatedOrder = await updateOrder(order.id, {
       filled: true,
-      sharePrice,
-      totalPrice,
+      shares_filled: order.shares,
+      cost_filled: totalCost,
     });
     const user = this.liveUsers.get(order.userId);
     if (user) user(updatedOrder);
@@ -121,7 +121,7 @@ class TradeEngine {
     // Either order.shares or order.price must exist
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const cost = (
-      order.shares ? order.shares.mul(price).toDecimalPlaces(2) : order.price
+      order.shares ? order.shares.mul(price).toDecimalPlaces(2) : order.cost
     )!;
     if (user.balance.lessThan(cost)) return;
 
@@ -154,7 +154,7 @@ class TradeEngine {
   private async fillSellOrder(order: Order, coin: Coin, price: Prisma.Decimal) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const profit = (
-      order.shares ? order.shares.mul(price).toDecimalPlaces(2) : order.price
+      order.shares ? order.shares.mul(price).toDecimalPlaces(2) : order.cost
     )!;
 
     order.shares ??= profit.div(price);
@@ -213,7 +213,7 @@ class TradeEngine {
     if (orders.length === 0) return;
 
     for (const order of orders) {
-      const price = order.price!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
+      const price = order.target_price!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
       switch (order.direction) {
         case OrderDirection.BUY:
           if (summary.low.lte(price))

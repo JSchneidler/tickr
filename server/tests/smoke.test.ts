@@ -173,7 +173,7 @@ describe("orders", () => {
       payload: {
         coinId: coin.id,
         shares: "5",
-        price: "55000",
+        cost: "55000",
         direction: "SELL",
         type: "LIMIT",
       },

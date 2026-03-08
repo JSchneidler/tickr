@@ -4,6 +4,9 @@ process.env.JWT_SECRET = "tickr-testing-jwt";
 process.env.COINGECKO_API_KEY = "test-key";
 process.env.FINNHUB_API_KEY = "test-key";
 
+// Run DB migrations before tests
+await Bun.$`bunx prisma db push`;
+
 // Mock fetch to intercept CoinGecko API calls
 const originalFetch = globalThis.fetch;
 globalThis.fetch = async function (

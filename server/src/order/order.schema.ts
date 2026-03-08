@@ -8,8 +8,8 @@ export type OrderCreateInput = Omit<
   Prisma.OrderCreateInput,
   "User" | "Coin"
 > & {
-  shares?: string | Prisma.Decimal;
-  price?: string | Prisma.Decimal;
+  // shares?: string | Prisma.Decimal;
+  // cost?: string | Prisma.Decimal;
 };
 
 // API

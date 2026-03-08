@@ -25,15 +25,14 @@ export const webSocketMiddleware: Middleware<{}, RootState> = (store) => {
         store.getState(),
       );
 
-      // Shares or price must exist
-      const quantity = order.shares
-        ? `${order.shares} shares`
-        : `$${order.price!}`; // eslint-disable-line @typescript-eslint/no-non-null-assertion
+      const quantity = order.shares_filled
+        ? `${order.shares_filled} shares`
+        : `$${order.cost_filled}`;
 
-      if (coin && order.sharePrice)
+      if (coin && order.shares_filled)
         notifications.show({
           title: "Order filled",
-          message: `${order.direction}@${order.sharePrice} ${quantity} of ${coin.name}`,
+          message: `${order.direction} ${quantity} of ${coin.name}`,
         });
 
       store.dispatch(api.util.invalidateTags(["User", "Holding", "Order"]));
